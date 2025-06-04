@@ -149,8 +149,7 @@ export default function ProductActions({
             isAdding ||
             !isValidVariant
           }
-          variant="primary"
-          className="w-full h-10"
+          className="w-full h-10 bg-secondary text-primary hover:bg-secondary/90 hover:scale-105 transition-transform duration-200 ease-in-out"
           isLoading={isAdding}
           data-testid="add-product-button"
         >

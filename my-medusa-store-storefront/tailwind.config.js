@@ -34,6 +34,9 @@ module.exports = {
           80: "#1F2937",
           90: "#111827",
         },
+        primary: "#1A237E",
+        secondary: "#B08D57",
+        "neutral-light": "#F8F8F8",
       },
       borderRadius: {
         none: "0px",
@@ -69,6 +72,7 @@ module.exports = {
           "Ubuntu",
           "sans-serif",
         ],
+        serif: ["Playfair Display", "serif"],
       },
       keyframes: {
         ring: {
