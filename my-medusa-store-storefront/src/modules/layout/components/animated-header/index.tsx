@@ -36,6 +36,7 @@ const AnimatedHeader = () => {
     { href: "/collections", label: "Collections", testId: "nav-collections-link" },
     { href: "/products", label: "Products", testId: "nav-products-link" },
     { href: "/about", label: "About Us", testId: "nav-about-link" },
+    { href: "/blog", label: "Blog", testId: "nav-blog-link" },
   ]
   
   const rightLinks = [

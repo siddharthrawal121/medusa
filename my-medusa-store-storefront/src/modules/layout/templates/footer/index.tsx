@@ -279,7 +279,7 @@ export default function Footer() {
                   { href: "/shipping", label: "Shipping & Delivery" },
                   { href: "/returns", label: "Returns & Exchanges" },
                   { href: "/terms", label: "Terms & Conditions" },
-                  { href: "/privacy", label: "Privacy Policy" }
+                  { href: "/policy", label: "Privacy Policy" } // Changed href to /policy
                 ].map((link) => (
                   <li key={link.href}>
                     <LocalizedClientLink 

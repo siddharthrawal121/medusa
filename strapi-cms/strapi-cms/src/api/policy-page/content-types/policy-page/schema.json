@@ -1,0 +1,1 @@
+{"kind":"singleType","collectionName":"policy_pages","info":{"singularName":"policy-page","pluralName":"policy-pages","displayName":"Policy Page"},"options":{"draftAndPublish":true},"pluginOptions":{},"attributes":{"title":{"type":"string","required":true,"default":"Privacy Policy"},"content":{"type":"richtext","required":true},"last_updated":{"type":"date","required":true}}}
