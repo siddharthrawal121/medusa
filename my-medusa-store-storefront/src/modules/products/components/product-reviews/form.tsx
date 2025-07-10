@@ -5,7 +5,8 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { retrieveCustomer } from "../../../../lib/data/customer"
 import { HttpTypes } from "@medusajs/types"
-import { Button, Input, Label, Textarea, toast, Toaster } from "@medusajs/ui"
+import { Button, Label, toast, Toaster } from "@medusajs/ui"
+import Input from "@modules/common/components/input"
 import { Star, StarSolid } from "@medusajs/icons"
 import { addProductReview } from "../../../../lib/data/products"
 
@@ -85,27 +86,54 @@ export default function ProductReviewsForm({ productId }: ProductReviewsFormProp
           
           <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
             <div className="flex flex-col gap-y-2">
-              <Label className="text-luxury-charcoal">Title</Label>
-              <Input name="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
+              <Input
+                label="Title"
+                name="title"
+                type="text"
+                required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </div>
             <div className="flex flex-col gap-y-2">
-              <Label className="text-luxury-charcoal">Content</Label>
-              <Textarea name="content" value={content} onChange={(e) => setContent(e.target.value)} placeholder="Content" />
+              <label className="mb-2 text-gray-700/80 text-sm">Content</label>
+              <textarea
+                name="content"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Write your thoughts..."
+                rows={6}
+                className="w-full border border-luxury-lightgold/50 bg-luxury-ivory p-3 focus:border-luxury-gold focus:outline-none transition-colors duration-300"
+              />
             </div>
             <div className="flex flex-col gap-y-2">
-              <Label className="text-luxury-charcoal">Rating</Label>
+              <label className="mb-2 text-gray-700/80 text-sm">Rating</label>
               <div className="flex gap-x-1">
                 {Array.from({ length: 5 }).map((_, index) => (
-                  <Button key={index} variant="transparent" onClick={(e) => {
-                    e.preventDefault()
-                    setRating(index + 1)
-                  }} className="p-0">
-                    {rating >= index + 1 ? <StarSolid className="text-luxury-gold" /> : <Star />}
-                  </Button>
+                  <button
+                    key={index}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setRating(index + 1)
+                    }}
+                    className="p-0 bg-transparent border-none"
+                  >
+                    {rating >= index + 1 ? (
+                      <StarSolid className="text-luxury-gold" />
+                    ) : (
+                      <Star className="text-luxury-charcoal/30" />
+                    )}
+                  </button>
                 ))}
               </div>
             </div>
-            <Button type="submit" disabled={isLoading} variant="primary">Submit</Button>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full mt-6 luxury-btn"
+            >
+              {isLoading ? "Submitting..." : "Submit"}
+            </button>
           </form>
           </div>
         </div>
