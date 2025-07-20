@@ -496,7 +496,7 @@ const AnimatedHeader = () => {
                     >
                       <div className="flex items-center gap-x-2 text-luxury-charcoal">
                         <span className="text-sm font-medium">Currency:</span>
-                        <CurrencySwitcher />
+                        <CurrencySwitcher variant="footer" />
                       </div>
                     </motion.div>
                   </div>

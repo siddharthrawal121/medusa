@@ -11,7 +11,7 @@ const faqs = [
     question: "Do you offer wholesale pricing?",
     answer: (
       <span>
-        Yes, we do offer wholesale opportunities. For wholesale inquiries, please get in touch with us at <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a>.
+        Yes, we do offer wholesale opportunities. For wholesale inquiries, please get in touch with us at <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a>.
       </span>
     ),
   },
@@ -67,7 +67,7 @@ const faqs = [
     question: "Can I request a custom or personalized order?",
     answer: (
       <span>
-        Absolutely! We welcome custom commissions. Please email <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a> with your requirements.
+        Absolutely! We welcome custom commissions. Please email <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a> with your requirements.
       </span>
     ),
   },
@@ -75,9 +75,9 @@ const faqs = [
     question: "How can I contact you?",
     answer: (
       <span>
-        Email: <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a><br />
-        Phone: +91&nbsp;XXXXXXXXXX<br />
-        Business Hours: Mon–Fri, 10&nbsp;AM–6&nbsp;PM IST
+        Email: <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a><br />
+        Phone: +91&nbsp;9259418994<br />
+        Business Hours: Mon–Sun, 10&nbsp;AM–6&nbsp;PM IST
       </span>
     ),
   },

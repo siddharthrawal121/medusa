@@ -33,7 +33,7 @@ export default function ReturnsPage() {
         <section>
           <h3 className="font-serif text-xl text-luxury-gold mb-2">2. How to Initiate a Return</h3>
           <ol className="list-decimal pl-6 space-y-1">
-            <li><span className="font-semibold text-luxury-gold">Email Support:</span> Send your <span className="font-semibold">order number</span>, reason for return, and photos (if applicable) to <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a> within 7 days of delivery.</li>
+            <li><span className="font-semibold text-luxury-gold">Email Support:</span> Send your <span className="font-semibold">order number</span>, reason for return, and photos (if applicable) to <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a> within 7 days of delivery.</li>
             <li><span className="font-semibold text-luxury-gold">Receive RMA:</span> We will reply with a <span className="font-semibold">Return Merchandise Authorization (RMA)</span> and shipping instructions.</li>
             <li><span className="font-semibold text-luxury-gold">Ship the Item:</span> Affix the RMA clearly on the package and send via your chosen courier.</li>
             <li><span className="font-semibold text-luxury-gold">Inspection & Confirmation:</span> Once we receive and inspect the item, you will be notified and your refund will be processed.</li>
@@ -44,7 +44,7 @@ export default function ReturnsPage() {
           <h3 className="font-serif text-xl text-luxury-gold mb-2">3. Cancellations (Pre‑Dispatch)</h3>
           <ul className="list-disc pl-6 space-y-1">
             <li><span className="font-semibold text-luxury-gold">Timing:</span> Orders may be canceled in full <span className="font-semibold">before dispatch</span>.</li>
-            <li><span className="font-semibold text-luxury-gold">Process:</span> Email <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a> with your order number.</li>
+            <li><span className="font-semibold text-luxury-gold">Process:</span> Email <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a> with your order number.</li>
             <li><span className="font-semibold text-luxury-gold">Refund:</span> Full amount refunded within <span className="font-semibold">5–10 working days</span> of cancellation confirmation.</li>
           </ul>
         </section>
@@ -69,7 +69,7 @@ export default function ReturnsPage() {
             </li>
             <li><span className="font-semibold text-luxury-gold">Notify Support & Carrier:</span>
               <ul className="list-disc pl-6">
-                <li>Email <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a> with your order number, damage details, and photos.</li>
+                <li>Email <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a> with your order number, damage details, and photos.</li>
                 <li>Notify the shipping carrier (FedEx, DHL, etc.) per their damage‑claim process.</li>
               </ul>
             </li>
@@ -94,9 +94,9 @@ export default function ReturnsPage() {
         <section>
           <h3 className="font-serif text-xl text-luxury-gold mb-2">Contact & Support</h3>
           <ul className="list-disc pl-6 space-y-1">
-            <li><span className="font-semibold text-luxury-gold">Email (All Inquiries – Returns, Claims & Cancellations):</span> <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a></li>
-            <li><span className="font-semibold text-luxury-gold">Phone:</span> +91 XXXXXXXXXX</li>
-            <li><span className="font-semibold text-luxury-gold">Business Hours:</span> Mon–Fri, 10 AM–6 PM IST</li>
+            <li><span className="font-semibold text-luxury-gold">Email (All Inquiries – Returns, Claims & Cancellations):</span> <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a></li>
+            <li><span className="font-semibold text-luxury-gold">Phone:</span> +91 9259418994</li>
+            <li><span className="font-semibold text-luxury-gold">Business Hours:</span> Mon–Sun, 10 AM–6 PM IST</li>
           </ul>
           <p className="mt-4">For assistance or status updates, please reach out—our team is here to ensure your satisfaction!</p>
         </section>

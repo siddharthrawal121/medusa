@@ -121,8 +121,8 @@ export default function CSRPolicyPage() {
           </p>
           <div className="pl-6">
             <p className="font-semibold">CSR Team</p>
-            <p>Email: <a href="mailto:csr@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">csr@imperialcraft.in</a></p>
-            <p>Phone: +91 XXXXXXXXXX</p>
+            <p>Email: <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a></p>
+            <p>Phone: +91 9259418994</p>
           </div>
         </section>
 

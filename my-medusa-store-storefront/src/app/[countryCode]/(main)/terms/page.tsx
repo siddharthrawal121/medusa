@@ -20,7 +20,7 @@ export default function TermsPage() {
         <section>
           <h2 className="font-display text-2xl text-luxury-charcoal mb-4">1. Introduction</h2>
           <p className="mb-4">
-            Welcome to <strong>imperialcraft.in</strong> (the "Website"), operated by Imperial Craft of India ("we," "us," or "our"). These Terms & Conditions, together with our Privacy Policy and any other notices or agreements published on the Website, govern your use of our site and any purchases you make. By accessing or using the Website, placing an order, or otherwise engaging with our services, you agree to be bound by this Agreement.
+            Welcome to <strong>imperialcraftofindia.com</strong> (the "Website"), operated by Imperial Craft of India ("we," "us," or "our"). These Terms & Conditions, together with our Privacy Policy and any other notices or agreements published on the Website, govern your use of our site and any purchases you make. By accessing or using the Website, placing an order, or otherwise engaging with our services, you agree to be bound by this Agreement.
           </p>
         </section>
 
@@ -71,7 +71,7 @@ export default function TermsPage() {
         <section>
           <h2 className="font-display text-2xl text-luxury-charcoal mb-4">7. External Links</h2>
           <p className="mb-4">
-            We may provide external links for your convenience. We do not control those sites, and accept no responsibility for their content or accuracy. Linking to imperialcraft.in requires our prior written permission—please contact <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a>.
+            We may provide external links for your convenience. We do not control those sites, and accept no responsibility for their content or accuracy. Linking to imperialcraftofindia.com requires our prior written permission—please contact <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a>.
           </p>
         </section>
 
@@ -91,7 +91,7 @@ export default function TermsPage() {
               <ol className="list-decimal pl-6 space-y-1">
                 <li>Photograph external packaging <strong>before</strong> opening.</li>
                 <li>Inspect within <strong>3 days</strong> of delivery.</li>
-                <li>Email <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a> with order details, carrier name, and photos.</li>
+                <li>Email <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a> with order details, carrier name, and photos.</li>
                 <li>Upon insurance claim approval, you may choose a replacement or full refund.</li>
               </ol>
             </li>
@@ -154,7 +154,7 @@ export default function TermsPage() {
         <section>
           <h2 className="font-display text-2xl text-luxury-charcoal mb-4">17. User Accounts & Registration</h2>
           <p className="mb-4">
-            To access certain features, you may need to register. You agree to provide true, accurate, and complete information and to update it promptly. Notify us of changes at <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a>.
+            To access certain features, you may need to register. You agree to provide true, accurate, and complete information and to update it promptly. Notify us of changes at <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a>.
           </p>
         </section>
 
@@ -174,7 +174,7 @@ export default function TermsPage() {
 
         <section className="border-t border-luxury-gold/20 pt-8 mt-12">
           <p className="text-center">
-            If you have any questions or require further clarification, please contact us at <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a>.
+            If you have any questions or require further clarification, please contact us at <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a>.
           </p>
         </section>
       </div>

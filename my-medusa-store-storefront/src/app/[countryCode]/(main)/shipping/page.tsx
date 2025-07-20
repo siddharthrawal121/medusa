@@ -49,7 +49,7 @@ export default function ShippingPage() {
                 <li><span className="font-semibold">Port‑to‑Door:</span>
                   <ul className="list-disc pl-6">
                     <li>Buyer arranges inland delivery from seaport, or</li>
-                    <li>We can handle door delivery for an <span className="font-semibold">additional fee</span>—email <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a> with your full address and chosen seaport for a quote.</li>
+                    <li>We can handle door delivery for an <span className="font-semibold">additional fee</span>—email <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a> with your full address and chosen seaport for a quote.</li>
                   </ul>
                 </li>
               </ul>
@@ -105,9 +105,9 @@ export default function ShippingPage() {
         <section>
           <h3 className="font-serif text-xl text-luxury-gold mb-2">Contact & Support</h3>
           <ul className="list-disc pl-6 space-y-1">
-            <li><span className="font-semibold text-luxury-gold">Email:</span> <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a></li>
-            <li><span className="font-semibold text-luxury-gold">Phone:</span> +91 XXXXXXXXXX</li>
-            <li><span className="font-semibold text-luxury-gold">Business Hours:</span> Mon–Fri, 10 AM–6 PM IST</li>
+            <li><span className="font-semibold text-luxury-gold">Email:</span> <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a></li>
+            <li><span className="font-semibold text-luxury-gold">Phone:</span> +91 9259418994</li>
+            <li><span className="font-semibold text-luxury-gold">Business Hours:</span> Mon–Sun, 10 AM–6 PM IST</li>
           </ul>
         </section>
       </div>

@@ -19,7 +19,7 @@ export default function PrivacyPage() {
       <div className="max-w-3xl mx-auto text-luxury-charcoal text-base md:text-lg space-y-12">
         <section>
           <p className="mb-4">
-            <strong>Imperial Craft of India</strong> ("we," "us," or "our") operates the website <strong>imperialcraft.in</strong> (the "Site"). We are committed to protecting the privacy of all visitors ("you" or "your"). This Privacy Policy describes what information we collect, how we use and share it, and your choices regarding that information. By accessing or using the Site, you agree to this Privacy Policy. If you do not agree, please do not use the Site.
+            <strong>Imperial Craft of India</strong> ("we," "us," or "our") operates the website <strong>imperialcraftofindia.com</strong> (the "Site"). We are committed to protecting the privacy of all visitors ("you" or "your"). This Privacy Policy describes what information we collect, how we use and share it, and your choices regarding that information. By accessing or using the Site, you agree to this Privacy Policy. If you do not agree, please do not use the Site.
           </p>
         </section>
 
@@ -99,9 +99,9 @@ export default function PrivacyPage() {
         <section>
           <h2 className="font-display text-2xl text-luxury-charcoal mb-4">6. Your Rights & Choices</h2>
           <ul className="list-disc pl-6 space-y-3">
-            <li><span className="font-semibold text-luxury-gold">Access & Correction:</span> you may review, update, or correct your account information by logging in or contacting us at <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a>.</li>
-            <li><span className="font-semibold text-luxury-gold">Data Portability & Deletion:</span> you may request a copy of your data or deletion of your account (subject to legal obligations) by contacting <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a>.</li>
-            <li><span className="font-semibold text-luxury-gold">Marketing Opt‑Out:</span> click the "unsubscribe" link in any promotional email or email <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a>.</li>
+            <li><span className="font-semibold text-luxury-gold">Access & Correction:</span> you may review, update, or correct your account information by logging in or contacting us at <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a>.</li>
+            <li><span className="font-semibold text-luxury-gold">Data Portability & Deletion:</span> you may request a copy of your data or deletion of your account (subject to legal obligations) by contacting <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a>.</li>
+            <li><span className="font-semibold text-luxury-gold">Marketing Opt‑Out:</span> click the "unsubscribe" link in any promotional email or email <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a>.</li>
             <li><span className="font-semibold text-luxury-gold">Do Not Track:</span> we do not respond to browser "Do Not Track" signals; you may disable cookies as described above.</li>
           </ul>
         </section>
@@ -140,8 +140,8 @@ export default function PrivacyPage() {
             If you have questions or concerns about this Privacy Policy, please contact us at:
           </p>
           <ul className="list-none pl-0 space-y-1">
-            <li><strong>Email:</strong> <a href="mailto:support@imperialcraft.in" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraft.in</a></li>
-            <li><strong>Phone:</strong> +91 XXXXXXXXXX</li>
+            <li><strong>Email:</strong> <a href="mailto:support@imperialcraftofindia.com" className="text-luxury-gold underline hover:text-luxury-darkgold">support@imperialcraftofindia.com</a></li>
+            <li><strong>Phone:</strong> +91 9259418994</li>
             <li><strong>Address:</strong> Imperial Craft of India, [Your Business Address]</li>
           </ul>
         </section>
