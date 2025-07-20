@@ -1,175 +1,165 @@
-"use server"
+"use client"
 
-import { getRegion } from "@lib/data/regions"
-import Image from "next/image"
-import { notFound } from "next/navigation"
+import { Button } from "@medusajs/ui"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
-interface AboutPageProps {
-  params: {
-    countryCode: string
-  }
-}
-
-export default async function AboutPage(props: AboutPageProps) {
-  const params = await props.params
-  const countryCode = params.countryCode
-  const region = await getRegion(countryCode)
-
-  if (!region) {
-    notFound()
-  }
-
+export default function AboutPage() {
   return (
-    <div className="content-container py-12">
-      {/* Hero section */}
-      <div className="flex flex-col items-center text-center mb-20">
+    <div className="content-container py-16">
+      {/* Hero Section */}
+      <div className="flex flex-col items-center text-center mb-16">
         <h1 className="font-display text-4xl text-luxury-charcoal mb-4">
-          Our Craftsmanship
+          About Imperial Craft of India
         </h1>
         <div className="h-px w-20 bg-luxury-gold mb-8"></div>
-        <p className="text-serif-regular text-luxury-charcoal/80 max-w-2xl mx-auto">
-          For generations, our master craftsmen have preserved the ancient art of marble sculpting,
-          combining time-honored techniques with contemporary precision to create pieces of extraordinary beauty.
+        <p className="text-serif-regular text-luxury-charcoal/80 max-w-3xl mx-auto text-lg">
+          From the heart of Agra—home of the Taj Mahal—Imperial Craft of India brings 15 years of marble‑sculpting mastery online. Since 2022, our workshop has been crafting museum‑quality marble sculptures, epoxy gemstone tables, bespoke tabletops, and more, delivering over <span className="font-semibold">10,000+</span> handcrafted pieces worldwide.
         </p>
       </div>
 
-      {/* Our Story section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+      {/* Heritage Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-16">
         <div>
-          <h2 className="font-display text-2xl text-luxury-charcoal mb-4">Our Heritage</h2>
+          <h2 className="font-display text-2xl text-luxury-charcoal mb-4">Our Heritage & Story</h2>
           <div className="h-px w-16 bg-luxury-gold mb-8"></div>
-          <div className="text-serif-regular text-luxury-charcoal/80 space-y-4">
+          <div className="space-y-6 text-serif-regular text-luxury-charcoal/80">
             <p>
-              Founded in 1978, Imperial Craft Of India began as a small family workshop dedicated to preserving the ancient traditions of marble craftsmanship. Our founder, Master Craftsman Raj Sharma, learned the art from his father and grandfather, carrying forward techniques that have been passed down through generations.
+              Founded in 2008 as a family atelier, Imperial Craft of India was born from a passion for preserving centuries‑old marble carving traditions. Our founder, <em>Siddharth Rawal</em>, apprenticed under master sculptors in Rajasthan before opening his own studio in Agra. For 15 years, we served local palaces, temples, and private collectors—perfecting techniques passed down through three generations.
             </p>
             <p>
-              What started as a modest operation has grown into an internationally recognized atelier, renowned for creating some of the world's most exquisite marble artworks while maintaining the same dedication to craftsmanship that defined our beginnings.
-            </p>
-            <p>
-              Today, we continue to honor this legacy by combining age-old techniques with contemporary design sensibilities, creating timeless pieces that bridge the past and present.
+              In the wake of the 2020 global shift, we launched our online store in early 2022—to bring India's finest marble handicrafts and epoxy gemstone tables directly to your doorstep, anywhere in the world.
             </p>
           </div>
         </div>
-        <div className="relative h-96 luxury-image-hover overflow-hidden">
-          <div className="absolute inset-0 bg-[url('/craftsman-1.jpg')] bg-cover bg-center hover:scale-105 transition-transform duration-700"></div>
+        <div>
+          <h2 className="font-display text-2xl text-luxury-charcoal mb-4">Our Craft & Process</h2>
+          <div className="h-px w-16 bg-luxury-gold mb-8"></div>
+          <ul className="space-y-4 text-serif-regular text-luxury-charcoal/80">
+            <li className="flex items-start gap-3">
+              <span className="text-luxury-gold">•</span>
+              <span><strong className="text-luxury-charcoal">Selection:</strong> Ethically sourced premium marble from Makrana & Udaipur quarries.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-luxury-gold">•</span>
+              <span><strong className="text-luxury-charcoal">Design & Prototyping:</strong> 3D CAD mockups blended with hand‑sketch artistry.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-luxury-gold">•</span>
+              <span><strong className="text-luxury-charcoal">Sculpting & Carving:</strong> Precision chiseling and polishing by master artisans.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-luxury-gold">•</span>
+              <span><strong className="text-luxury-charcoal">Finishing:</strong> Multi‑stage sanding, sealing, and hand‑painting options.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-luxury-gold">•</span>
+              <span><strong className="text-luxury-charcoal">Quality Control:</strong> Each piece undergoes rigorous inspection before shipping.</span>
+            </li>
+          </ul>
         </div>
       </div>
 
-      {/* Process section */}
-      <div className="mb-24">
-        <div className="text-center mb-16">
-          <h2 className="font-display text-2xl text-luxury-charcoal mb-4">Our Process</h2>
-          <div className="h-px w-16 bg-luxury-gold mx-auto mb-8"></div>
-          <p className="text-serif-regular text-luxury-charcoal/80 max-w-2xl mx-auto">
-            Every Imperial Craft Of India creation undergoes a meticulous process that honors traditional craftsmanship while embracing modern techniques.
-          </p>
+      {/* Products Section */}
+      <div className="mb-16">
+        <h2 className="font-display text-2xl text-luxury-charcoal mb-4">What We Make</h2>
+        <div className="h-px w-16 bg-luxury-gold mb-8"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="bg-luxury-cream/30 p-6 rounded-sm">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">Marble Sculptures</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">Mini Taj Mahal replicas, gods & goddesses, bespoke figurines.</p>
+          </div>
+          <div className="bg-luxury-cream/30 p-6 rounded-sm">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">Jewelry & Ring Boxes</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">Intricate inlaid designs, velvet‑lined interiors.</p>
+          </div>
+          <div className="bg-luxury-cream/30 p-6 rounded-sm">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">Chess Sets & Tabletops</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">Functional art pieces, custom sizes.</p>
+          </div>
+          <div className="bg-luxury-cream/30 p-6 rounded-sm">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">Epoxy Gemstone Tables</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">Live‑edge slabs inlaid with crushed gemstones & resin.</p>
+          </div>
         </div>
+      </div>
 
+      {/* Quality Section */}
+      <div className="mb-16">
+        <h2 className="font-display text-2xl text-luxury-charcoal mb-4">Quality, Authenticity & Promise</h2>
+        <div className="h-px w-16 bg-luxury-gold mb-8"></div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Step 1 */}
-          <div className="flex flex-col items-center text-center">
-            <div className="w-16 h-16 rounded-full bg-luxury-cream flex items-center justify-center mb-4">
-              <span className="font-display text-2xl text-luxury-gold">1</span>
-            </div>
-            <h3 className="font-display text-xl text-luxury-charcoal mb-2">Selection</h3>
-            <p className="text-serif-regular text-luxury-charcoal/80">
-              We hand-select the finest marble from ethical quarries, choosing blocks with optimal veining, color, and structural integrity for each piece we create.
-            </p>
+          <div className="bg-luxury-cream/30 p-6 rounded-sm text-center">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">100% Genuine Marble</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">With certification from source quarries.</p>
           </div>
-
-          {/* Step 2 */}
-          <div className="flex flex-col items-center text-center">
-            <div className="w-16 h-16 rounded-full bg-luxury-cream flex items-center justify-center mb-4">
-              <span className="font-display text-2xl text-luxury-gold">2</span>
-            </div>
-            <h3 className="font-display text-xl text-luxury-charcoal mb-2">Sculpting</h3>
-            <p className="text-serif-regular text-luxury-charcoal/80">
-              Our master artisans use traditional tools and techniques to shape the marble, meticulously carving each detail by hand to ensure precision and artistry.
-            </p>
+          <div className="bg-luxury-cream/30 p-6 rounded-sm text-center">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">Handmade Excellence</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">Each creation carved, polished, and painted by hand.</p>
           </div>
-
-          {/* Step 3 */}
-          <div className="flex flex-col items-center text-center">
-            <div className="w-16 h-16 rounded-full bg-luxury-cream flex items-center justify-center mb-4">
-              <span className="font-display text-2xl text-luxury-gold">3</span>
-            </div>
-            <h3 className="font-display text-xl text-luxury-charcoal mb-2">Finishing</h3>
-            <p className="text-serif-regular text-luxury-charcoal/80">
-              Each piece undergoes extensive polishing and finishing, using progressively finer abrasives to achieve a luminous surface that highlights the natural beauty of the stone.
-            </p>
+          <div className="bg-luxury-cream/30 p-6 rounded-sm text-center">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">Global Durability</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">Built to last generations with minimal upkeep.</p>
           </div>
         </div>
       </div>
 
-      {/* Our Artisans section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
-        <div className="order-2 lg:order-1 relative h-96 luxury-image-hover overflow-hidden">
-          <div className="absolute inset-0 bg-[url('/craftsman-2.jpg')] bg-cover bg-center hover:scale-105 transition-transform duration-700"></div>
-        </div>
-        <div className="order-1 lg:order-2">
-          <h2 className="font-display text-2xl text-luxury-charcoal mb-4">Our Artisans</h2>
-          <div className="h-px w-16 bg-luxury-gold mb-8"></div>
-          <div className="text-serif-regular text-luxury-charcoal/80 space-y-4">
-            <p>
-              Behind every Imperial Craft Of India creation is a team of dedicated artisans who have devoted their lives to mastering the art of marble craftsmanship. Many have trained with us for decades, developing an intuitive understanding of the stone and its possibilities.
-            </p>
-            <p>
-              Our workshop functions as both a production studio and a training ground, where senior master craftsmen pass their knowledge to the next generation through rigorous apprenticeships lasting 5-7 years.
-            </p>
-            <p>
-              This commitment to preserving and evolving our craft ensures that the ancient art of marble sculpting continues to thrive in the modern world, producing works that honor tradition while embracing innovation.
-            </p>
+      {/* Shipping Section */}
+      <div className="mb-16">
+        <h2 className="font-display text-2xl text-luxury-charcoal mb-4">Worldwide Shipping & Service</h2>
+        <div className="h-px w-16 bg-luxury-gold mb-8"></div>
+        <p className="text-serif-regular text-luxury-charcoal/80 mb-6">
+          Over <span className="font-semibold">10,000+</span> pieces shipped to luxury hotels, galleries, and private homes across 50+ countries. We offer:
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-luxury-cream/30 p-6 rounded-sm">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">White‑glove Delivery</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">Museum‑grade packing for flawless arrivals.</p>
+          </div>
+          <div className="bg-luxury-cream/30 p-6 rounded-sm">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">Customs & Duties Support</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">Documentation to streamline international delivery.</p>
+          </div>
+          <div className="bg-luxury-cream/30 p-6 rounded-sm">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">Easy Returns & Warranty</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">30‑day satisfaction guarantee + 2‑year craftsmanship warranty.</p>
           </div>
         </div>
       </div>
 
-      {/* Quality Promise */}
-      <div className="bg-luxury-cream/30 p-12 mb-12">
-        <div className="text-center">
-          <h2 className="font-display text-2xl text-luxury-charcoal mb-4">Our Quality Promise</h2>
-          <div className="h-px w-16 bg-luxury-gold mx-auto mb-8"></div>
-          <p className="text-serif-regular text-luxury-charcoal/80 max-w-2xl mx-auto mb-8">
-            Every piece that leaves our workshop meets our exacting standards of quality and craftsmanship.
-          </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="flex flex-col items-center">
-              <div className="w-12 h-12 rounded-full bg-luxury-ivory border border-luxury-gold/20 flex items-center justify-center mb-3">
-                <svg className="w-6 h-6 text-luxury-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                </svg>
-              </div>
-              <h3 className="font-display text-lg text-luxury-charcoal mb-2">Authenticity</h3>
-              <p className="text-serif-regular text-luxury-charcoal/80 text-center">
-                100% genuine materials with certification of origin and authenticity.
-              </p>
-            </div>
-            
-            <div className="flex flex-col items-center">
-              <div className="w-12 h-12 rounded-full bg-luxury-ivory border border-luxury-gold/20 flex items-center justify-center mb-3">
-                <svg className="w-6 h-6 text-luxury-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                </svg>
-              </div>
-              <h3 className="font-display text-lg text-luxury-charcoal mb-2">Craftsmanship</h3>
-              <p className="text-serif-regular text-luxury-charcoal/80 text-center">
-                Meticulously handcrafted by expert artisans with decades of experience.
-              </p>
-            </div>
-            
-            <div className="flex flex-col items-center">
-              <div className="w-12 h-12 rounded-full bg-luxury-ivory border border-luxury-gold/20 flex items-center justify-center mb-3">
-                <svg className="w-6 h-6 text-luxury-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </div>
-              <h3 className="font-display text-lg text-luxury-charcoal mb-2">Longevity</h3>
-              <p className="text-serif-regular text-luxury-charcoal/80 text-center">
-                Built to last generations with proper care and maintenance.
-              </p>
-            </div>
+      {/* Why Choose Us Section */}
+      <div className="mb-16">
+        <h2 className="font-display text-2xl text-luxury-charcoal mb-4">Why Choose Imperial Craft of India?</h2>
+        <div className="h-px w-16 bg-luxury-gold mb-8"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="bg-luxury-cream/30 p-6 rounded-sm">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">Heritage Expertise</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">15 years honing the art of marble from Agra's finest masters.</p>
+          </div>
+          <div className="bg-luxury-cream/30 p-6 rounded-sm">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">Transparent Pricing</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">No hidden fees—detailed quotes for custom projects.</p>
+          </div>
+          <div className="bg-luxury-cream/30 p-6 rounded-sm">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">One‑on‑One Support</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">Dedicated project manager for every order.</p>
+          </div>
+          <div className="bg-luxury-cream/30 p-6 rounded-sm">
+            <h3 className="font-display text-lg text-luxury-charcoal mb-3">Sustainability</h3>
+            <p className="text-serif-regular text-luxury-charcoal/80">Eco‑friendly resins and responsibly quarried stone.</p>
           </div>
         </div>
+      </div>
+
+      {/* CTA Section */}
+      <div className="text-center">
+        <LocalizedClientLink href="/products">
+          <Button className="luxury-btn px-8 py-4">
+            Explore Our Collection
+          </Button>
+        </LocalizedClientLink>
+        <p className="mt-4 text-serif-regular text-luxury-charcoal/80">
+          Or <LocalizedClientLink href="/contact" className="text-luxury-gold hover:text-luxury-charcoal transition-colors duration-200">contact us</LocalizedClientLink> for a custom quote.
+        </p>
       </div>
     </div>
   )

@@ -4,6 +4,7 @@ import AnimatedHeader from "@modules/layout/components/animated-header"
 import PrefetchProvider from "@modules/layout/components/prefetch-provider"
 import CountryRedirect from "@modules/layout/components/country-redirect"
 import WorldwidePopup from "@modules/layout/components/worldwide-popup"
+import WhatsAppButton from "@components/common/whatsapp-button"
 import { getRegions } from "@lib/regions"
 import { dataFetchingConfig } from "@lib/config"
 
@@ -43,6 +44,7 @@ export default async function StoreLayout({
           {children}
         </div>
         <Footer />
+        <WhatsAppButton />
       </div>
     </PrefetchProvider>
   )
