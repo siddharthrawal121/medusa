@@ -47,6 +47,12 @@ export const metadata: Metadata = {
       "Discover handcrafted marble masterpieces and luxury Indian decor.",
     images: [`${BASE_URL}/opengraph-image.jpg`],
   },
+  authors: [{ name: "Siddharth Rawal" }],
+  publisher: "Siddharth Rawal",
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 // -- VIEWPORT ----------------------------------------------------------------
