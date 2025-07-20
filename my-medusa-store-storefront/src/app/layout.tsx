@@ -3,6 +3,52 @@ import { Metadata, Viewport } from "next"
 import "styles/globals.css"
 import Script from "next/script"
 
+// -- OPTIMIZED GOOGLE FONTS (Next.js font optimization) ---------------------
+import {
+  Playfair_Display,
+  Cormorant_Garamond,
+  Montserrat,
+  Inter,
+} from "next/font/google"
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800", "900"],
+})
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-cormorant",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
+})
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  display: "swap",
+  weight: [
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+    "900",
+  ],
+})
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+})
+
 // Base URL used in metadata throughout the site
 const BASE_URL = getBaseURL()
 
@@ -66,7 +112,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-mode="light">
+    <html
+      lang="en"
+      data-mode="light"
+      className={`${playfair.variable} ${cormorant.variable} ${montserrat.variable} ${inter.variable}`}
+    >
       <body suppressHydrationWarning={true}>
         {/* Organization & WebSite structured data */}
         <Script
