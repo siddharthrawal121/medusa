@@ -256,12 +256,12 @@ const AnimatedHeader = () => {
               }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
-              <LocalizedClientLink href="/" className="relative group">
-                <h1 className={`font-serif text-xl md:text-2xl tracking-wide ${
+              <LocalizedClientLink href="/" className="relative group" aria-label="Imperial Craft of India Home">
+                <span className={`font-serif text-xl md:text-2xl tracking-wide ${
                   isHomePage && !isScrolled ? "text-white" : "text-luxury-charcoal"
                 }`}>
                   IMPERIAL CRAFT OF INDIA
-                </h1>
+                </span>
                 <div className={`text-[10px] tracking-widest uppercase text-center -mt-1 opacity-80 ${
                   isHomePage && !isScrolled ? "text-white" : "text-luxury-charcoal"
                 }`}>

@@ -53,6 +53,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    google: "EwadNZ1UkW_OTBPpXzTBT05Bx9qpMr-dVi43GtYUrJo",
+  },
 }
 
 // -- VIEWPORT ----------------------------------------------------------------
