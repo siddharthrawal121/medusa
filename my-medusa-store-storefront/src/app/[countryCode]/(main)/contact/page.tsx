@@ -11,8 +11,7 @@ interface ContactPageProps {
 export default function ContactPage({ params }: ContactPageProps) {
   const handleWhatsAppClick = () => {
     const message = encodeURIComponent("Hello! How can Imperial Craft of India assist you today?")
-    const whatsappUrl = `https://wa.me/919259418994?text=${message}`
-    window.open(whatsappUrl, "_blank")
+    window.open(`https://wa.me/919259418994?text=${message}`, "_blank", "noopener,noreferrer")
   }
 
   return (
