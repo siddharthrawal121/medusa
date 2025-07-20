@@ -20,8 +20,8 @@ const Footer = () => {
         {/* Decorative marble pattern at the top */}
         <motion.div 
           className="w-full flex justify-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.7, delay: 0 }}
         >
           <div className="h-[1px] w-24 gold-gradient"></div>
@@ -30,8 +30,8 @@ const Footer = () => {
         {/* Enhanced Craftsmanship Statement */}
         <motion.div 
           className="mb-16 text-center max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
           <Heading level="h2" className="font-display text-3xl mb-4 text-luxury-charcoal">
@@ -48,8 +48,8 @@ const Footer = () => {
           {/* Company Info */}
           <motion.div 
             className="col-span-1"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <Heading level="h3" className="text-xl mb-4 font-display text-luxury-gold">Imperial Craft Of India</Heading>
@@ -96,8 +96,8 @@ const Footer = () => {
           {/* Shop Links with improved hover effects */}
           <motion.div 
             className="col-span-1"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <Heading level="h3" className="text-xl mb-5 font-display text-luxury-gold">Shop</Heading>
@@ -124,8 +124,8 @@ const Footer = () => {
           {/* Customer Service with improved hover effects */}
           <motion.div 
             className="col-span-1"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <Heading level="h3" className="text-xl mb-5 font-display text-luxury-gold">Customer Care</Heading>
@@ -159,8 +159,8 @@ const Footer = () => {
           {/* Newsletter with enhanced luxury styling */}
           <motion.div 
             className="col-span-1"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
           >
             <Heading level="h3" className="text-xl mb-5 font-display text-luxury-gold">Join Our Circle</Heading>

@@ -198,27 +198,27 @@ export default function HomeClientWrapper({
         
         {/* Content */}
         <div className="relative z-10 max-w-4xl mx-auto text-center px-6 w-full py-12">
-          <motion.div variants={fadeIn} className="mb-4 md:mb-6">
+          <div className="mb-4 md:mb-6">
             <Heading level="h1" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4 font-serif text-white leading-tight">
               <span className="block">Bespoke Marble</span>
               <span className="block">Handicrafts</span>
               <span className="block">for Timeless Luxury</span>
             </Heading>
-          </motion.div>
+          </div>
           
-          <motion.div variants={fadeIn} className="mb-6 md:mb-8">
+          <div className="mb-6 md:mb-8">
             <Text className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto text-white">
               Hand-carved by Master Artisans in India
             </Text>
-          </motion.div>
+          </div>
           
-          <motion.div variants={fadeIn}>
+          <div>
             <Link href={`/${countryCode}/categories`}>
               <AnimatedButton variant="gold" size="large" className="w-full sm:w-auto">
                 Shop Signature Collection
               </AnimatedButton>
             </Link>
-          </motion.div>
+          </div>
         </div>
         
         {/* Scrolling indicator */}
