@@ -175,7 +175,7 @@ export default function HomeClientWrapper({
     <div className="w-full overflow-hidden">
       {/* Hero Section */}
       <motion.section
-        className="relative min-h-screen flex items-center justify-center overflow-hidden w-full"
+        className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden w-full"
         initial="initial"
         animate="animate"
         variants={staggerContainer}
