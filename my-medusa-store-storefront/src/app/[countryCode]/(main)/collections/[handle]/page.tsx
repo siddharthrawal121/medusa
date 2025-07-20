@@ -9,6 +9,8 @@ import { StoreCollection, StoreRegion } from "@medusajs/types"
 import CollectionTemplate from "@modules/collections/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { Suspense } from "react"
+import { buildAlternates } from "@lib/util/seo"
+import { getBaseURL } from "@lib/util/env"
 
 type Props = {
   params: { handle: string; countryCode: string }
@@ -89,11 +91,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
+  const alternates = buildAlternates(`/collections/${collection.handle}`, params.countryCode as string, getBaseURL())
   const metadata = {
     title: `${collection.title} | Imperial Craft Of India`,
     description: collection.handle ? 
       `Explore our exclusive ${collection.title} collection of premium marble products. Each piece is crafted with exceptional quality and timeless design.` : 
       "Discover our luxury marble collections, each showcasing the finest craftsmanship and materials.",
+    alternates: alternates,
     openGraph: {
       title: `${collection.title} | Imperial Craft Of India`,
       description: collection.handle ? 

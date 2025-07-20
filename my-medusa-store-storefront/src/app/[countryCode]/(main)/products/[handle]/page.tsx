@@ -5,6 +5,9 @@ import { getRegion, listRegions } from "@lib/data/regions"
 import { getProductData } from "@lib/data/products"
 import ProductTemplate from "@modules/products/templates"
 import { Suspense } from "react"
+import Script from "next/script"
+import { getBaseURL } from "@lib/util/env"
+import { buildAlternates } from "@lib/util/seo"
 import SkeletonProductPage from "@modules/skeletons/templates/skeleton-product-page"
 
 type Props = {
@@ -74,11 +77,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       return notFound()
     }
 
+    const alternates = buildAlternates(`/products/${product.handle}`, countryCode, getBaseURL())
     return {
       title: `${product.title} | Imperial Craft Of India`,
       description:
         product.description?.substring(0, 160) ||
         `Discover the exquisite ${product.title}, a handcrafted marble piece from our luxury collection.`,
+      alternates: alternates,
       openGraph: {
         title: `${product.title} | Imperial Craft Of India`,
         description:
@@ -108,14 +113,40 @@ export default async function ProductPage(props: Props) {
       return notFound()
     }
 
+    const baseUrl = getBaseURL()
+
+    const price = (product as any).variants?.[0]?.prices?.[0]
+    const ldJson = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.title,
+      image: product.thumbnail ? [product.thumbnail] : [],
+      description: product.description,
+      sku: (product as any).sku || product.id,
+      brand: {
+        "@type": "Brand",
+        name: "Imperial Craft of India",
+      },
+      offers: {
+        "@type": "Offer",
+        url: `${baseUrl}/products/${product.handle}`,
+        priceCurrency: price?.currency_code || region.currency_code,
+        price: (price?.amount ?? 0) / 100,
+        availability: "https://schema.org/InStock",
+      },
+    }
+
     return (
-      <Suspense fallback={<SkeletonProductPage />}>
-        <ProductTemplate
-          product={product}
-          region={region}
-          countryCode={countryCode}
-        />
-      </Suspense>
+      <>
+        <Suspense fallback={<SkeletonProductPage />}>
+          <ProductTemplate
+            product={product}
+            region={region}
+            countryCode={countryCode}
+          />
+        </Suspense>
+        <Script id="product-ld-json" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }} />
+      </>
     )
   } catch (error) {
     console.error(`Error in ProductPage:`, error)
