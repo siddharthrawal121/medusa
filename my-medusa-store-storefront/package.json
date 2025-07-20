@@ -8,8 +8,8 @@
     "medusa-storefront"
   ],
   "scripts": {
-    "dev": "TINA_PUBLIC_IS_LOCAL=true tinacms dev -c \"next dev -p 8000\"",
-    "build": "TINA_PUBLIC_IS_LOCAL=true tinacms build --local --skip-cloud-checks -c \"NODE_ENV=production next build\"",
+    "dev": "next dev -p 8000",
+    "build": "NODE_ENV=production next build",
     "start": "next start -p 8000",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build"
@@ -40,7 +40,6 @@
     "server-only": "^0.0.1",
     "swr": "^2.3.4",
     "tailwindcss-radix": "^2.8.0",
-    "tinacms": "^2.7.9",
     "webpack": "^5"
   },
   "devDependencies": {
@@ -48,7 +47,6 @@
     "@medusajs/types": "latest",
     "@medusajs/ui-preset": "latest",
     "@swc/core": "^1.12.11",
-    "@tinacms/cli": "^1.9.9",
     "@types/lodash": "^4.14.195",
     "@types/node": "^24.0.6",
     "@types/pg": "^8.11.0",

@@ -18,13 +18,8 @@ import {
   faPaypal,
 } from "@fortawesome/free-brands-svg-icons"
 
-let tinaClientPromise: Promise<any> | null = null
-const getTinaClient = async () => {
-  if (!tinaClientPromise) {
-    tinaClientPromise = import("../../../../../tina/__generated__/client").then(m => m.default || m)
-  }
-  return tinaClientPromise
-}
+// TinaCMS removed – keeping default static company details.
+// Removed dynamic fetch of content.
 
 export default function Footer() {
   const [collections, setCollections] = useState<any[]>([])
@@ -58,23 +53,8 @@ export default function Footer() {
     fetchData()
   }, [])
   
-  useEffect(() => {
-    const fetchFooter = async () => {
-      try {
-        const client = await getTinaClient()
-        const res = await client.queries.site({ relativePath: "footer.json" })
-        const footer = res?.data?.site?.footer
-        if (footer) {
-          if (footer.company) setCompanyName(footer.company)
-          if (footer.description) setCompanyDescription(footer.description)
-          if (footer.social?.length) setSocialLinks(footer.social as any)
-        }
-      } catch (e) {
-        // keep defaults
-      }
-    }
-    if (typeof window !== "undefined") fetchFooter()
-  }, [])
+  // TinaCMS removed – keeping default static company details.
+  // Removed dynamic fetch of content.
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
