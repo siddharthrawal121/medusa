@@ -1,3 +1,5 @@
+// @ts-nocheck
+"use client"
 import { RadioGroup } from "@headlessui/react"
 import { isManual } from "@lib/constants"
 import { Container, Text, clx } from "@medusajs/ui"

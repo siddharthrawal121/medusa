@@ -8,7 +8,7 @@ import { listRegions } from "@lib/data/regions"
 const CurrencyDisplay = () => {
   const [currencies, setCurrencies] = useState<Record<string, string>>({})
   const [currentCurrency, setCurrentCurrency] = useState<string | null>(null)
-  const { countryCode } = useParams()
+  const { countryCode } = useParams() as { countryCode?: string }
   
   useEffect(() => {
     const fetchRegionData = async () => {

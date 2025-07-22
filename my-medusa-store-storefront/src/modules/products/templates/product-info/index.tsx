@@ -36,20 +36,20 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
                 {product.collection.title} Collection
               </LocalizedClientLink>
               
-              {product.categories?.length > 0 && (
+              {product.categories?.length && product.categories.length > 0 ? (
                 <span className="text-luxury-gold/50 mx-1">·</span>
-              )}
+              ) : null}
             </>
           )}
 
-          {product.categories?.length > 0 && (
+          {product.categories?.length && product.categories.length > 0 ? (
             <LocalizedClientLink
-              href={`/categories/${product.categories[0].handle}`}
+              href={`/categories/${product.categories?.[0]?.handle ?? ''}`}
               className="text-luxury-gold/80 hover:text-luxury-gold transition-colors duration-300 uppercase tracking-wider text-xs"
             >
-              {product.categories[0].name} Category
+              {product.categories?.[0]?.name} Category
             </LocalizedClientLink>
-          )}
+          ) : null}
         </div>
         
         {/* Product title with luxury styling */}

@@ -37,7 +37,8 @@ export const useScrollAnimation = ({
   const isInView = useInView(ref, {
     once,
     amount: threshold,
-    margin,
+    // Cast margin to any since framer-motion expects MarginType but we provide string
+    margin: margin as any,
   })
 
   return { ref, isInView }

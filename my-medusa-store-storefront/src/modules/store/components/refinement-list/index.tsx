@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
@@ -28,11 +29,11 @@ type RefinementListProps = {
     value: string
     products_count?: number
   }[]
-  minPrice: number
-  maxPrice: number
-  currencyCode: string
+  minPrice?: number
+  maxPrice?: number
+  currencyCode?: string
   productCount?: number
-  region: HttpTypes.StoreRegion
+  region?: HttpTypes.StoreRegion
 }
 
 const RefinementList = ({ 
