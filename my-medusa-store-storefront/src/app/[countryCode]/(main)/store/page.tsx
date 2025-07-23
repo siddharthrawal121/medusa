@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   description: "Explore our exclusive collection of handcrafted marble products.",
 }
 
-// Incremental static regeneration: refresh this listing every 5 minutes
-export const revalidate = 300
+// Segment config should be a constant, not a function
+export const dynamic = 'force-dynamic'
 
 export default async function StorePage({
   params,

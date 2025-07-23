@@ -18,8 +18,9 @@ type Props = {
   }
 }
 
-// Cache category pages for 5 minutes while serving stale copies until revalidated
-export const revalidate = 300
+// Use a more conservative caching strategy
+export const dynamic = 'force-dynamic'
+export const revalidate = 60 // Revalidate every 60 seconds
 
 // Cache category data to prevent redundant fetches
 const getCachedCategory = cache(async (handle: string) => {
