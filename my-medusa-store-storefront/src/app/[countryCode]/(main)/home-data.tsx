@@ -1,7 +1,5 @@
 import HomeClientWrapper from "@modules/home/components/home-client-wrapper"
-import { getRegion } from "@lib/data/regions"
-import { getCachedCategories } from "@modules/home/components/categories"
-import { getHomepageProducts } from "@lib/data/products"
+import { getHomePayload } from "@lib/data/home"
 
 interface HomeDataProps {
   countryCode: string
@@ -9,13 +7,7 @@ interface HomeDataProps {
 
 export default async function HomeData({ countryCode }: HomeDataProps) {
   // parallel data fetching
-  const [region, categories, homepageProducts] = await Promise.all([
-    getRegion(countryCode),
-    getCachedCategories().catch(() => []),
-    getHomepageProducts(countryCode).catch(() => ({ featuredProducts: [] })),
-  ])
-
-  const { featuredProducts } = homepageProducts
+  const { region, categories, featuredProducts } = await getHomePayload(countryCode)
 
   return (
     <HomeClientWrapper
