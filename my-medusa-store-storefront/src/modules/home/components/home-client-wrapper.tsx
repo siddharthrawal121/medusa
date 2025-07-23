@@ -18,13 +18,15 @@ type HomeClientWrapperProps = {
   categories: any[]
   region: HttpTypes.StoreRegion | null
   countryCode: string
+  showHero?: boolean
 }
 
 export default function HomeClientWrapper({ 
   featuredProducts, 
   categories, 
   region,
-  countryCode
+  countryCode,
+  showHero = true
 }: HomeClientWrapperProps) {
   // Fallback image for categories
   const fallbackImage = "/table-top.webp"
@@ -174,6 +176,7 @@ export default function HomeClientWrapper({
   return (
     <div className="w-full overflow-hidden">
       {/* Hero Section */}
+      {showHero && (
       <motion.section
         className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden w-full"
         initial="initial"
@@ -232,6 +235,7 @@ export default function HomeClientWrapper({
           </svg>
         </motion.div>
       </motion.section>
+      )}
       
       {/* Featured Products Section - CAROUSEL */}
       <section className="py-16 bg-white w-full">
