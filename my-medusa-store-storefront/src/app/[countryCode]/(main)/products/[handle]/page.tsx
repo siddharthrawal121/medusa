@@ -14,59 +14,54 @@ type Props = {
   params: { countryCode: string; handle: string }
 }
 
-// Set dynamic rendering options for this page
-export const dynamic = "force-dynamic"
-// Use default fetch caching so region list is cached for 60s on the server
-// (still dynamic thanks to force-dynamic)
-// export const fetchCache = "force-no-store"
 // Cache the product page for 5 minutes to balance freshness with performance.
 export const revalidate = 300
 
-// NOTE: Disabled static params generation to speed up dev and avoid large API calls.
-/*
+// Pre-render popular products while keeping others on-demand via ISR
 export async function generateStaticParams() {
+  // Skip during development to keep startup fast
+  if (process.env.NODE_ENV !== "production") {
+    return []
+  }
+
   try {
     const countryCodes = await listRegions().then((regions) =>
-      regions?.map((r) => r.countries?.map((c) => c.iso_2)).flat()
+      regions?.flatMap((r) => r.countries?.map((c) => c.iso_2) || [])
     )
 
-    if (!countryCodes) {
+    if (!countryCodes?.length) {
       return []
     }
 
-    // For each country, fetch product handles in parallel
+    // Fetch top 50 newest products for each country in parallel
     const countryProducts = await Promise.all(
       countryCodes.map(async (country) => {
         const { response } = await listProducts({
           countryCode: country,
-          queryParams: { limit: 100, fields: "handle" },
+          queryParams: {
+            limit: 50,
+            fields: "handle",
+            order: "created_at:desc",
+          },
         })
 
-        return {
-          country,
-          products: response.products,
-        }
+        return response.products.map((product) => ({
+          countryCode: country,
+          handle: product.handle,
+        }))
       })
     )
 
-    return countryProducts
-      .flatMap((countryData) =>
-        countryData.products.map((product) => ({
-          countryCode: countryData.country,
-          handle: product.handle,
-        }))
-      )
-      .filter((param) => param.handle)
+    return countryProducts.flat().filter((p) => p.handle)
   } catch (error) {
     console.error(
-      `Failed to generate static paths for product pages: ${
+      `Failed to generate static params for product pages: ${
         error instanceof Error ? error.message : "Unknown error"
-      }.`
+      }`
     )
     return []
   }
 }
-*/
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const { handle, countryCode } = await props.params

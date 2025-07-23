@@ -8,8 +8,8 @@ import WhatsAppButton from "@components/common/whatsapp-button"
 import { getRegions } from "@lib/regions"
 import { dataFetchingConfig } from "@lib/config"
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 60
+// Allow static generation with incremental revalidation every 5 minutes
+export const revalidate = 300
 
 // Skip static generation for account pages
 // This is necessary because account pages use cookies and server-side data
