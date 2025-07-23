@@ -17,27 +17,27 @@ export const CATEGORIES: Record<string, CategoryConfig> = {
   tajMahal: {
     displayName: "Marble Taj Mahal",
     handle: "taj-mahal", // Correct backend handle
-    imageSrc: "/Marble taj mahal.png"
+    imageSrc: "/Marble taj mahal.avif"
   },
   ringBox: {
     displayName: "Marble Ring Box",
     handle: "ring-box",
-    imageSrc: "/Marble ring box.jpg"
+    imageSrc: "/Marble ring box.avif"
   },
   jewelleryBox: {
     displayName: "Marble Jewelry Box",
     handle: "jewelry-box",
-    imageSrc: "/marble jewellery box.jpg"
+    imageSrc: "/marble jewellery box.avif"
   },
   animalSculpture: {
     displayName: "Marble Animal Sculpture",
     handle: "animal-sculpture",
-    imageSrc: "/Marble animal sculpture.png"
+    imageSrc: "/Marble animal sculpture.avif"
   },
   godSculpture: {
     displayName: "Marble God Sculpture",
     handle: "god-sculpture",
-    imageSrc: "/Marble god sculpture.png"
+    imageSrc: "/Marble god sculpture.avif"
   },
   pictureFrame: {
     displayName: "Agate Picture Frame",
@@ -47,37 +47,37 @@ export const CATEGORIES: Record<string, CategoryConfig> = {
   flowerVase: {
     displayName: "Marble Flower Vase",
     handle: "flower-vase",
-    imageSrc: "/Marble flower vase.png"
+    imageSrc: "/Marble flower vase.avif"
   },
   coaster: {
     displayName: "Marble Coaster",
     handle: "coaster-set",
-    imageSrc: "/Marble Coaster.jpg"
+    imageSrc: "/Marble Coaster.avif"
   },
   table: {
     displayName: "Marble Table",
     handle: "marble-table-top",
-    imageSrc: "/Marble table.png"
+    imageSrc: "/Marble table.avif"
   },
   chessBoard: {
     displayName: "Marble Chess Board",
     handle: "marble-chess-board",
-    imageSrc: "/Marble chess board.png"
+    imageSrc: "/Marble chess board.avif"
   },
   inlayPlate: {
     displayName: "Marble Inlay Plate",
     handle: "marble-inlay-plate",
-    imageSrc: "/Marble inlay plate.png"
+    imageSrc: "/Marble inlay plate.avif"
   },
   gemstoneTable: {
     displayName: "Gemstone Table",
     handle: "gemstone-table-top-top",
-    imageSrc: "/Gemstone table.png"
+    imageSrc: "/Gemstone table.avif"
   },
   epoxyTable: {
     displayName: "Epoxy Table",
     handle: "epoxy-table",
-    imageSrc: "/Epoxy table.png"
+    imageSrc: "/Epoxy table.avif"
   }
 }
 
