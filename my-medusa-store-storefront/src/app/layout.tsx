@@ -2,6 +2,8 @@ import { getBaseURL } from "@lib/util/env"
 import { Metadata, Viewport } from "next"
 import "styles/globals.css"
 import Script from "next/script"
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 // -- OPTIMIZED GOOGLE FONTS (Next.js font optimization) ---------------------
 import {
@@ -144,6 +146,9 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           }}
         />
         <main className="relative">{props.children}</main>
+        {/* Vercel Analytics & Speed Insights */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
