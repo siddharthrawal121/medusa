@@ -1,31 +1,43 @@
-schemaVersion: 2
-
-services:
-  medusa-server:
-    # Build from your source using a Dockerfile in root, or adjust to use an image
-    # If you have a Dockerfile in my-medusa-store, CapRover will build it automatically
-    build:
-      context: ./my-medusa-store
-    # Use your existing env file for server
-    env_file:
-      - ./my-medusa-store/.env.server
-    ports:
-      - containerPort: 9000
-        hostPort:  9000
-
-  medusa-worker:
-    build:
-      context: ./my-medusa-store
-    env_file:
-      - ./my-medusa-store/.env.worker
-    # Override the default command to run in worker mode
-    command:
-      - sh
-      - -c
-      - |
-        cd .medusa/server && MEDUSA_WORKER_MODE=worker npm run start
-    deploy:
-      replicas: 1
-      rollbackConfig:
-        parallelism: 1
-        delay: 10s
+{
+  "schemaVersion": 2,
+  "services": {
+    "medusa-server": {
+      "build": {
+        "context": "./my-medusa-store",
+        "dockerfileLines": [
+          "FROM node:18-alpine",
+          "WORKDIR /app",
+          "COPY package*.json ./",
+          "RUN npm install --production",
+          "COPY . ."
+        ]
+      },
+      "env_file": ["./my-medusa-store/.env.server"],
+      "ports": [
+        { "containerPort": 9000, "hostPort": 9000 }
+      ]
+    },
+    "medusa-worker": {
+      "build": {
+        "context": "./my-medusa-store",
+        "dockerfileLines": [
+          "FROM node:18-alpine",
+          "WORKDIR /app",
+          "COPY package*.json ./",
+          "RUN npm install --production",
+          "COPY . ."
+        ]
+      },
+      "env_file": ["./my-medusa-store/.env.worker"],
+      "command": [
+        "sh",
+        "-c",
+        "cd .medusa/server && MEDUSA_WORKER_MODE=worker npm run start"
+      ],
+      "deploy": {
+        "replicas": 1,
+        "rollbackConfig": { "parallelism": 1, "delay": "10s" }
+      }
+    }
+  }
+}
