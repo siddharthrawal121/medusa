@@ -3,12 +3,18 @@
   "dockerfileLines": [
     "FROM node:lts-alpine",
     "WORKDIR /app",
-    "COPY package.json yarn.lock ./",
+    "# Copy package files from the my-medusa-store directory",
+    "COPY my-medusa-store/package.json my-medusa-store/package-lock.json ./",
     "RUN npm install --frozen-lockfile",
-    "COPY . .",
+    "# Copy all source code from the my-medusa-store directory",
+    "COPY my-medusa-store/ .",
+    "# Build the Medusa project",
     "RUN npm run build",
+    "# Expose Medusa default port",
     "EXPOSE 9000",
+    "# Run in server mode",
     "ENV MEDUSA_WORKER_MODE=server",
+    "# Start Medusa",
     "CMD [\"npm\", \"run\", \"start\"]"
   ]
 }
