@@ -53,8 +53,6 @@ export default defineConfig({
   // Admin UI settings (enable/disable via env)
   admin: {
     backendUrl: process.env.MEDUSA_BACKEND_URL,
-    path: "/",    
-    disable: true  
   },
   // Redis-backed Event Bus & Cache
   modules: {
