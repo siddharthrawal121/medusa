@@ -1,20 +1,25 @@
+// captain-definition
 {
-  "schemaVersion": 2,
-  "dockerfileLines": [
+  "schemaVersion" : 2,
+  "dockerfileLines" : [
     "FROM node:lts-alpine",
     "WORKDIR /app",
-    "# Copy package files from the my-medusa-store directory",
+
+    "# Install dependencies",
     "COPY my-medusa-store/package.json my-medusa-store/package-lock.json ./",
     "RUN npm install --frozen-lockfile",
-    "# Copy all source code from the my-medusa-store directory",
+
+    "# Copy code + config",
     "COPY my-medusa-store/ .",
-    "# Build the Medusa project",
-    "RUN npm run build",
-    "# Expose Medusa default port",
+
+    "# Build Medusa + Admin UI → then copy admin into public/admin",
+    "RUN npm run build \\",
+    "  && mkdir -p public/admin \\",
+    "  && cp -r ./.medosa/admin/build/* ./public/admin/",
+
+    "# Expose & run",
     "EXPOSE 9000",
-    "# Run in server mode",
     "ENV MEDUSA_WORKER_MODE=server",
-    "# Start Medusa",
     "CMD [\"npm\", \"run\", \"start\"]"
   ]
 }
