@@ -3,12 +3,28 @@
   "dockerfileLines": [
     "FROM node:lts-alpine",
     "WORKDIR /app",
+
     "COPY my-medusa-store/package.json my-medusa-store/package-lock.json ./",
     "RUN npm install --frozen-lockfile",
+
     "COPY my-medusa-store/ .",
-    "RUN npm run build && mkdir -p public/admin && cp -r ./.medusa/admin/build/* ./public/admin/",
+
+    "# Build backend + frontend → outputs into .medusa/server",
+    "RUN npm run build",
+
+    "# Copy admin UI out of .medusa/server/public/admin → ./public/admin",
+    "RUN mkdir -p public/admin && cp -r ./.medusa/server/public/admin/* ./public/admin",
+
+    "# Install production deps for server",
+    "WORKDIR /app/.medusa/server",
+    "RUN npm install --production",
+
+    "WORKDIR /app",
+
     "EXPOSE 9000",
     "ENV MEDUSA_WORKER_MODE=server",
-    "CMD [\"npm\", \"run\", \"start\"]"
+
+    "# Run migrations & start",
+    "CMD [\"sh\",\"-c\",\"npm run predeploy && npm run start\"]"
   ]
 }

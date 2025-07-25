@@ -11,6 +11,7 @@ export default defineConfig({
       process.env.REDIS_URL ||
       process.env.EVENTS_REDIS_URL ||
       process.env.CACHE_REDIS_URL!,
+
     databaseDriverOptions:
       process.env.NODE_ENV !== "development"
         ? {
@@ -26,6 +27,7 @@ export default defineConfig({
             },
           }
         : {},
+
     http: {
       storeCors: process.env.STORE_CORS!,
       adminCors: process.env.ADMIN_CORS!,
@@ -33,13 +35,17 @@ export default defineConfig({
       jwtSecret: process.env.JWT_SECRET || "supersecret",
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     },
+
     workerMode:
       (process.env.MEDUSA_WORKER_MODE as "server" | "worker" | "shared") ||
       "server",
   },
+
+  // only backendUrl needed here—outDir is forced in the JS shim
   admin: {
     backendUrl: process.env.MEDUSA_BACKEND_URL,
   },
+
   modules: {
     event_bus: {
       resolve: "@medusajs/event-bus-redis",
