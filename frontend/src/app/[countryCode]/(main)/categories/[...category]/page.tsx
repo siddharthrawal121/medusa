@@ -46,7 +46,7 @@ async function findSimilarCategory(handle: string) {
     const allCategories = await listCategories();
     
     // Check if there's a similar category (e.g., "marble-table" vs "marble-table-top")
-    const similarCategory = allCategories.find(c => 
+    const similarCategory = allCategories.find((c: any) => 
       c.handle?.includes(handle) || handle.includes(c.handle || '')
     );
     
@@ -68,7 +68,7 @@ export async function generateStaticParams() {
 
   // Only generate the most popular categories to avoid too many pages
   return regions
-    .map((region) => {
+    .map((region: any) => {
       return categories.slice(0, 10).map((category) => {
         return {
           category: [category.handle],

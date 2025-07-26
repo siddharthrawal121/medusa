@@ -1,7 +1,7 @@
 import { listProducts } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import { HttpTypes } from "@medusajs/types"
-import ProductPreview from "../../components/product-preview/server"
+import ProductPreview from "../product-preview/server"
 
 type RelatedProductsProps = {
   product: HttpTypes.StoreProduct
