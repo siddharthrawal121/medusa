@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 2,
+
+  "build": {
+    "env": {
+      "NODE_ENV": "production",
+      "NEXT_PUBLIC_MEDUSA_BACKEND_URL": "https://medusa-server…",
+      "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY": "pk_7c1b7a37044345e…"
+    },
+    "command": "npm install && npm run build"
+  },
+
+  "dockerfileLines": [
+    "FROM node:18-alpine",
+    "WORKDIR /app",
+
+    "# 1) Copy metadata & install dependencies",
+    "COPY frontend/package.json frontend/package-lock.json ./",
+    "RUN npm install",
+
+    "# 2) Inject NEXT_PUBLIC_* vars for build",
+    "ARG NEXT_PUBLIC_MEDUSA_BACKEND_URL",
+    "ARG NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY",
+    "RUN printf \"NEXT_PUBLIC_MEDUSA_BACKEND_URL=$NEXT_PUBLIC_MEDUSA_BACKEND_URL\\nNEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=$NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY\" > .env.local",
+
+    "# 3) Copy source & build",
+    "COPY frontend/ .",
+    "RUN npm run build",
+
+    "# 4) Expose & start using npm script",
+    "ENV PORT=8000",
+    "EXPOSE 8000",
+    "CMD [\"npm\",\"run\",\"start\"]"
+  ]
+}

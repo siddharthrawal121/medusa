@@ -4,10 +4,10 @@
     "FROM node:lts-alpine",
     "WORKDIR /app",
 
-    "COPY my-medusa-store/package.json my-medusa-store/package-lock.json ./",
-    "RUN npm install --frozen-lockfile",
+    "COPY backend/package.json backend/package-lock.json ./",
+    "RUN npm install --legacy-peer-deps",
 
-    "COPY my-medusa-store/ .",
+    "COPY backend/ .",
 
     "# Build backend + frontend → outputs into .medusa/server",
     "RUN npm run build",
@@ -17,14 +17,14 @@
 
     "# Install production deps for server",
     "WORKDIR /app/.medusa/server",
-    "RUN npm install --production",
+    "RUN npm install --omit=dev --legacy-peer-deps",
 
     "WORKDIR /app",
 
     "EXPOSE 9000",
     "ENV MEDUSA_WORKER_MODE=server",
 
-    "# Run migrations & start",
-    "CMD [\"sh\",\"-c\",\"npm run predeploy && npm run start\"]"
+    "# Start the application",
+    "CMD [\"sh\", \"-c\", \"npm run start\"]"
   ]
 }
