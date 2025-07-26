@@ -1,35 +1,36 @@
 {
   "schemaVersion": 2,
-
-  "build": {
-    "env": {
-      "NODE_ENV": "production",
-      "NEXT_PUBLIC_MEDUSA_BACKEND_URL": "https://medusa-server…",
-      "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY": "pk_7c1b7a37044345e…"
-    },
-    "command": "npm install && npm run build"
-  },
-
   "dockerfileLines": [
     "FROM node:18-alpine",
     "WORKDIR /app",
 
-    "# 1) Copy metadata & install dependencies",
+    "# 1) Install CA certs to trust self-signed backends",
+    "RUN apk add --no-cache ca-certificates",
+
+    "# 2) Copy metadata and install dependencies",
     "COPY frontend/package.json frontend/package-lock.json ./",
     "RUN npm install",
 
-    "# 2) Inject NEXT_PUBLIC_* vars for build",
+    "# 3) Inject env vars for build-time",
     "ARG NEXT_PUBLIC_MEDUSA_BACKEND_URL",
     "ARG NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY",
     "RUN printf \"NEXT_PUBLIC_MEDUSA_BACKEND_URL=$NEXT_PUBLIC_MEDUSA_BACKEND_URL\\nNEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=$NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY\" > .env.local",
 
-    "# 3) Copy source & build",
+    "# 4) Copy the rest of the frontend code and build",
     "COPY frontend/ .",
     "RUN npm run build",
 
-    "# 4) Expose & start using npm script",
+    "# 5) Set runtime env vars and start",
     "ENV PORT=8000",
     "EXPOSE 8000",
-    "CMD [\"npm\",\"run\",\"start\"]"
-  ]
+    "CMD [\"npm\", \"run\", \"start\"]"
+  ],
+  "build": {
+    "env": {
+      "NODE_ENV": "production",
+      "NEXT_PUBLIC_MEDUSA_BACKEND_URL": "https://your-medusa-server.example.com",
+      "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY": "pk_xxx_your_publishable_key_here"
+    },
+    "command": "npm install && npm run build"
+  }
 }
