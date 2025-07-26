@@ -4,31 +4,33 @@
     "FROM node:18-alpine",
     "WORKDIR /app",
 
-    "# 1) Install CA certs to trust self-signed backends",
+    "# 1) Install CA certificates so Node can validate your self‑signed cert",
     "RUN apk add --no-cache ca-certificates",
 
-    "# 2) Copy metadata and install dependencies",
+    "# 2) Copy package metadata & install dependencies",
     "COPY frontend/package.json frontend/package-lock.json ./",
     "RUN npm install",
 
-    "# 3) Inject env vars for build-time",
+    "# 3) Inject build‑time env vars",
     "ARG NEXT_PUBLIC_MEDUSA_BACKEND_URL",
     "ARG NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY",
     "RUN printf \"NEXT_PUBLIC_MEDUSA_BACKEND_URL=$NEXT_PUBLIC_MEDUSA_BACKEND_URL\\nNEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=$NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY\" > .env.local",
 
-    "# 4) Copy the rest of the frontend code and build",
+    "# 4) Copy app source and build",
     "COPY frontend/ .",
+    "# Fallback: disable strict TLS in case CA bundle still misses your cert",
+    "ENV NODE_TLS_REJECT_UNAUTHORIZED=0",
     "RUN npm run build",
 
-    "# 5) Set runtime env vars and start",
+    "# 5) Runtime settings",
+    "ENV NODE_ENV=production",
     "ENV PORT=8000",
     "EXPOSE 8000",
     "CMD [\"npm\", \"run\", \"start\"]"
   ],
   "build": {
     "env": {
-      "NODE_ENV": "production",
-      "NEXT_PUBLIC_MEDUSA_BACKEND_URL": "https://your-medusa-server.example.com",
+      "NEXT_PUBLIC_MEDUSA_BACKEND_URL": "https://imperial-medusa-server.imperialcraftofindia.com",
       "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY": "pk_xxx_your_publishable_key_here"
     },
     "command": "npm install && npm run build"
