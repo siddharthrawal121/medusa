@@ -2,18 +2,18 @@ import React, { Suspense } from "react"
 import Footer from "@modules/layout/templates/footer"
 import AnimatedHeader from "@modules/layout/components/animated-header"
 import PrefetchProvider from "@modules/layout/components/prefetch-provider"
-import CountryRedirect from "@modules/layout/components/country-redirect"
-import WorldwidePopup from "@modules/layout/components/worldwide-popup"
-import WhatsAppButton from "@components/common/whatsapp-button"
+import NextDynamic from "next/dynamic"
+
+const CountryRedirect = NextDynamic(() => import("@modules/layout/components/country-redirect"))
+const WorldwidePopup = NextDynamic(() => import("@modules/layout/components/worldwide-popup"))
+const WhatsAppButton = NextDynamic(() => import("@components/common/whatsapp-button"))
 import { getRegions } from "@lib/regions"
 import { dataFetchingConfig } from "@lib/config"
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 60
 
-// Skip static generation for account pages
-// This is necessary because account pages use cookies and server-side data
-// that can't be statically generated
+/*
 export async function generateStaticParams() {
   const regions = await getRegions()
   const countryCodes = Object.keys(regions).map((countryCode) => ({
@@ -22,8 +22,8 @@ export async function generateStaticParams() {
 
   return countryCodes
 }
+*/
 
-// This will return 404 for non-existent countries
 export const dynamicParams = true
 
 export default async function StoreLayout({
@@ -37,7 +37,6 @@ export default async function StoreLayout({
     <PrefetchProvider>
       <div className="relative flex flex-col min-h-screen overflow-x-hidden">
         <AnimatedHeader />
-        {/* Geo-aware notices */}
         <CountryRedirect />
         <WorldwidePopup />
         <div className="flex-1">

@@ -7,7 +7,7 @@ import HeroSection from "@modules/home/components/hero-section"
 import HomeData from "./home-data"
 
 export async function generateMetadata({ params }: { params: { countryCode: string } }): Promise<Metadata> {
-  const { countryCode } = params
+  const { countryCode } = await params
 
   const baseUrl = getBaseURL()
 
@@ -62,8 +62,8 @@ interface HomeProps {
   params: { countryCode: string }
 }
 
-export default function Home({ params }: HomeProps) {
-  const { countryCode } = params
+export default async function Home({ params }: HomeProps) {
+  const { countryCode } = await params
 
   return (
     <>

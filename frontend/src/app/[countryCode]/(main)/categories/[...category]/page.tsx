@@ -57,6 +57,7 @@ async function findSimilarCategory(handle: string) {
   }
 }
 
+/*
 export async function generateStaticParams() {
   const categories = await listCategories()
   
@@ -78,6 +79,7 @@ export async function generateStaticParams() {
     })
     .flat()
 }
+*/
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // Properly await params before using them - Next.js 15 requirement

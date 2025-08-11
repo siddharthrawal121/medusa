@@ -1,7 +1,7 @@
-"use server"
-
 import { NextResponse } from "next/server"
 import { searchProducts } from "@lib/data/search"
+
+export const runtime = 'edge'
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
@@ -9,7 +9,12 @@ export async function GET(req: Request) {
   const countryCode = searchParams.get("countryCode") ?? "us"
 
   if (!q.trim()) {
-    return NextResponse.json({ products: [] })
+    return new NextResponse(JSON.stringify({ products: [] }), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'public, max-age=10, s-maxage=10, stale-while-revalidate=30',
+      },
+    })
   }
 
   try {
@@ -21,9 +26,17 @@ export async function GET(req: Request) {
       countryCode,
     })
 
-    return NextResponse.json({ products })
+    return new NextResponse(JSON.stringify({ products }), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'public, max-age=10, s-maxage=10, stale-while-revalidate=30',
+      },
+    })
   } catch (e) {
     console.error("Error in search-suggest route", e)
-    return NextResponse.json({ products: [] }, { status: 500 })
+    return new NextResponse(JSON.stringify({ products: [] }), { status: 500, headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+    } })
   }
 } 

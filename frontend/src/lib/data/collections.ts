@@ -2,6 +2,8 @@
 
 import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
+import { COLLECTION_FIELDS } from "@lib/constants/api-fields"
+import { cache } from "react"
 
 export const retrieveCollection = async (id: string) => {
   const next = {
@@ -19,7 +21,7 @@ export const retrieveCollection = async (id: string) => {
     .then(({ collection }) => collection)
 }
 
-export const listCollections = async (
+export const listCollections = cache(async (
   queryParams: Record<string, string> = {}
 ): Promise<{ collections: HttpTypes.StoreCollection[]; count: number }> => {
   const next = {
@@ -34,12 +36,17 @@ export const listCollections = async (
     .fetch<{ collections: HttpTypes.StoreCollection[]; count: number }>(
       "/store/collections",
       {
-        query: queryParams,
+        query: {
+          ...queryParams,
+          fields: queryParams.fields || COLLECTION_FIELDS.LIST,
+        },
         next,
+        cache: "force-cache",
       }
     )
     .then(({ collections }) => ({ collections, count: collections.length }))
-}
+    .catch(() => ({ collections: [], count: 0 }))
+})
 
 export const getCollectionByHandle = async (
   handle: string

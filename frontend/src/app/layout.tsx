@@ -43,6 +43,14 @@ const inter = Inter({
 
 // Base URL used in metadata throughout the site
 const BASE_URL = getBaseURL()
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+const BACKEND_ORIGIN = (() => {
+  try {
+    return BACKEND_URL ? new URL(BACKEND_URL).origin : null
+  } catch {
+    return null
+  }
+})()
 
 // -- DEFAULT SITE-WIDE SEO METADATA -----------------------------------------
 export const metadata: Metadata = {
@@ -109,6 +117,12 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       data-mode="light"
       className={`${playfair.variable} ${cormorant.variable} ${montserrat.variable} ${inter.variable}`}
     >
+      {BACKEND_ORIGIN && (
+        <head>
+          <link rel="dns-prefetch" href={BACKEND_ORIGIN} />
+          <link rel="preconnect" href={BACKEND_ORIGIN} crossOrigin="anonymous" />
+        </head>
+      )}
       <body suppressHydrationWarning={true}>
         {/* Organization & WebSite structured data */}
         <Script
@@ -145,6 +159,16 @@ export default function RootLayout(props: { children: React.ReactNode }) {
             }),
           }}
         />
+        {/* Register a lightweight service worker after load for asset caching */}
+        <Script id="sw-register" strategy="afterInteractive">
+          {`
+            if ('serviceWorker' in navigator) {
+              window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').catch(function(){});
+              });
+            }
+          `}
+        </Script>
         <main className="relative">{props.children}</main>
         {/* Vercel Analytics & Speed Insights */}
         <Analytics />

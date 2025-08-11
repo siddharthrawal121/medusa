@@ -2,6 +2,7 @@ import { cache } from "react"
 import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
 import { notFound } from "next/navigation"
+import { CATEGORY_FIELDS } from "@lib/constants/api-fields"
 
 const getCategories = cache(async (
   options: {
@@ -14,7 +15,7 @@ const getCategories = cache(async (
   const { 
     limit = 100, 
     offset = 0, 
-    fields = "id,name,handle,description,category_children,parent_category",
+    fields = CATEGORY_FIELDS.LIST,
     parent_category_id = null
   } = options
 
@@ -30,7 +31,9 @@ const getCategories = cache(async (
     query: queryParams,
     next: {
       tags: ["categories"],
+      revalidate: 3600,
     },
+    cache: "force-cache",
   })
 
   if (!product_categories) {
@@ -75,7 +78,9 @@ export const getCategoryByHandle = cache(async (
     },
     next: {
       tags: ["categories"],
+      revalidate: 3600,
     },
+    cache: "force-cache",
   })
 
   const category = product_categories?.[0]
@@ -88,10 +93,8 @@ export const getCategoryByHandle = cache(async (
 })
 
 export const getCachedCategories = cache(async () => {
-  // To avoid fetching all categories at once, let's fetch only top-level ones
   const topLevelCategories = await listCategories()
 
-  // For each top-level category, fetch its children
   const withChildren = await Promise.all(
     topLevelCategories.map(async (c) => {
       if (c.id) {

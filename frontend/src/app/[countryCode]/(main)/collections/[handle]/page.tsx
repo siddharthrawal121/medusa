@@ -25,6 +25,7 @@ export const dynamic = "force-static"
 // Fix the config field issue by using a number directly
 export const revalidate = 600
 
+/*
 export async function generateStaticParams() {
   // Fetch collections and regions using batch fetch
   const responses = await batchFetch([
@@ -70,6 +71,7 @@ export async function generateStaticParams() {
 
   return staticParams
 }
+*/
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   // Properly await params in Next.js 15

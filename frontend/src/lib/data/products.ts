@@ -8,22 +8,26 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import { getCollectionByHandle } from "@lib/data/collections"
 import { StoreProductReview } from "../../types/global"
 import { getAuthHeaders, getCacheOptions } from "./cookies"
+import { PRODUCT_FIELDS } from "@lib/constants/api-fields"
 
 
 const getProducts = cache(
   async (
     queryParams: Omit<HttpTypes.StoreProductParams, "region_id">,
-    regionId: string
+    regionId: string,
+    fields: string = PRODUCT_FIELDS.LIST
   ) => {
     return sdk.client.fetch<{
       products: HttpTypes.StoreProduct[];
       count: number;
     }>(`/store/products`, {
       method: "GET",
-      query: { ...queryParams, region_id: regionId },
+      query: { ...queryParams, region_id: regionId, fields },
       next: {
         tags: ["products"],
+        revalidate: 1800,
       },
+      cache: "force-cache",
     });
   }
 );
@@ -43,8 +47,10 @@ export const listProducts = async ({
   nextPage: number | null
   queryParams?: HttpTypes.StoreProductParams
 }> => {
-  const region = regionId ? { id: regionId } : await getRegion(countryCode!)
-  
+  const region = regionId
+    ? { id: regionId }
+    : await getRegion(countryCode!)
+
   if (!region) {
     return {
       response: { products: [], count: 0 },
@@ -57,7 +63,8 @@ export const listProducts = async ({
 
   const { products, count } = await getProducts(
     { ...queryParams, limit, offset },
-    region.id
+    region.id,
+    PRODUCT_FIELDS.LIST
   )
 
   const nextPage = count > offset + limit ? pageParam + 1 : null
@@ -217,43 +224,29 @@ export const getProductData = cache(
     relatedProducts: HttpTypes.StoreProduct[]
     region: HttpTypes.StoreRegion | null
   }> => {
-    // Kick off region lookup and a lightweight product skeleton fetch in parallel
-    const regionPromise = getRegion(countryCode)
+    const region = await getRegion(countryCode)
 
-    // Fetch product without region so we at least have a skeleton quickly
-    const productSkeletonPromise = sdk.client
+    const detailedProduct = await sdk.client
       .fetch<{ products: HttpTypes.StoreProduct[] }>(`/store/products`, {
-        query: { handle, limit: 1 },
+        query: {
+          handle,
+          limit: 1,
+          ...(region ? { region_id: region.id } : {}),
+          fields: PRODUCT_FIELDS.DETAIL,
+        },
         next: {
-          revalidate: 300,
+          revalidate: 1800,
           tags: ["products", `product-handle-${handle}`],
         },
+        cache: "force-cache",
       })
       .then((res) => res.products?.[0] || null)
       .catch(() => null)
 
-    const [region, productSkeleton] = await Promise.all([regionPromise, productSkeletonPromise])
-
-    if (!region) {
-      // No region information – return skeleton as-is
-      return { product: productSkeleton, relatedProducts: [], region: null as any }
-    }
-
-    // Fetch region-aware pricing/details in parallel with related products lookup
-    const detailedProductPromise = sdk.client
-      .fetch<{ products: HttpTypes.StoreProduct[] }>(`/store/products`, {
-        query: { handle, limit: 1, region_id: region.id },
-      })
-      .then((res) => res.products?.[0] || productSkeleton)
-      .catch(() => productSkeleton)
-
-    // Related products can be fetched lazily – keep cheap for now
-    const detailedProduct = await detailedProductPromise
-
     return {
       product: detailedProduct,
       relatedProducts: [],
-      region,
+      region: region || (null as any),
     }
   }
 )
