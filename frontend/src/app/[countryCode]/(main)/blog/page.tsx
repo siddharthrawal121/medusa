@@ -1,5 +1,3 @@
-"use client"
-
 import { Button } from "@medusajs/ui"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { formatDate } from "@lib/utils"
