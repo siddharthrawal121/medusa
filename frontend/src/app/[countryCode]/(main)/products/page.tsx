@@ -11,6 +11,42 @@ import { HttpTypes } from "@medusajs/types"
 import Image from "next/image"
 import { sdk } from "@lib/config"
 import ProductListSkeleton from "@modules/skeletons/components/product-list-skeleton"
+import { Metadata } from "next"
+import { getBaseURL } from "@lib/util/env"
+import { buildAlternates } from "@lib/util/seo"
+
+export async function generateMetadata({ params }: { params: { countryCode: string } }): Promise<Metadata> {
+	const { countryCode } = await params
+	const baseUrl = getBaseURL()
+	const title = "All Products | Imperial Craft Of India"
+	const description = "Browse our full catalog of luxury handcrafted marble products and artisanal decor."
+	const alternates = buildAlternates("/products", countryCode, baseUrl)
+
+	return {
+		title,
+		description,
+		alternates,
+		openGraph: {
+			type: "website",
+			title,
+			description,
+			images: [
+				{
+					url: `${baseUrl}/opengraph-image.jpg`,
+					width: 1200,
+					height: 630,
+					alt: "Imperial Craft of India Products",
+				},
+			],
+		},
+		twitter: {
+			card: "summary_large_image",
+			title,
+			description,
+			images: [`${baseUrl}/opengraph-image.jpg`],
+		},
+	}
+}
 
 type SearchParams = {
   sortBy?: string

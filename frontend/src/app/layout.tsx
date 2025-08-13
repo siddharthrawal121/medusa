@@ -68,9 +68,6 @@ export const metadata: Metadata = {
     "handcrafted gifts",
     "Imperial Craft of India",
   ],
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     url: BASE_URL,
@@ -98,6 +95,18 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
   },
   verification: {
     google: "EwadNZ1UkW_OTBPpXzTBT05Bx9qpMr-dVi43GtYUrJo",
@@ -108,6 +117,52 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#d4af37" },
+    { media: "(prefers-color-scheme: dark)", color: "#b8941f" },
+  ],
+}
+
+// Structured data definitions
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${BASE_URL}/#organization`,
+  name: "Imperial Craft of India",
+  url: BASE_URL,
+  logo: {
+    "@type": "ImageObject",
+    url: `${BASE_URL}/logos/logo.png`,
+  },
+  image: `${BASE_URL}/opengraph-image.jpg`,
+  sameAs: [
+    "https://www.facebook.com/imperialcraftofindia",
+    "https://www.instagram.com/imperialcraftofindia",
+  ],
+}
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${BASE_URL}/#website`,
+  url: BASE_URL,
+  name: "Imperial Craft of India",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${BASE_URL}/search?q={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
+}
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": `${BASE_URL}/#localbusiness`,
+  name: "Imperial Craft of India",
+  image: `${BASE_URL}/opengraph-image.jpg`,
+  url: BASE_URL,
+  description:
+    "Luxury Indian handicrafts and handcrafted marble art from master artisans.",
 }
 
 export default function RootLayout(props: { children: React.ReactNode }) {
@@ -117,48 +172,31 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       data-mode="light"
       className={`${playfair.variable} ${cormorant.variable} ${montserrat.variable} ${inter.variable}`}
     >
-      {BACKEND_ORIGIN && (
-        <head>
-          <link rel="dns-prefetch" href={BACKEND_ORIGIN} />
-          <link rel="preconnect" href={BACKEND_ORIGIN} crossOrigin="anonymous" />
-        </head>
-      )}
+      <head>
+        {BACKEND_ORIGIN && (
+          <>
+            <link rel="dns-prefetch" href={BACKEND_ORIGIN} />
+            <link rel="preconnect" href={BACKEND_ORIGIN} crossOrigin="anonymous" />
+          </>
+        )}
+        <meta property="og:site_name" content="Imperial Craft of India" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="preload" href="/hero_img.webp" as="image" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        />
+      </head>
       <body suppressHydrationWarning={true}>
-        {/* Organization & WebSite structured data */}
-        <Script
-          id="org-ld-json"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              url: BASE_URL,
-              name: "Imperial Craft of India",
-              logo: `${BASE_URL}/logos/logo.png`,
-              sameAs: [
-                "https://www.facebook.com/imperialcraftofindia",
-                "https://www.instagram.com/imperialcraftofindia",
-              ],
-            }),
-          }}
-        />
-        <Script
-          id="website-ld-json"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              url: BASE_URL,
-              name: "Imperial Craft of India",
-              potentialAction: {
-                "@type": "SearchAction",
-                target: `${BASE_URL}/search?q={search_term_string}`,
-                "query-input": "required name=search_term_string",
-              },
-            }),
-          }}
-        />
         {/* Register a lightweight service worker after load for asset caching */}
         <Script id="sw-register" strategy="afterInteractive">
           {`

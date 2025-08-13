@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect, useRef } from "react"
 import { staggerContainer, fadeIn } from "@lib/util/animations"
 import ScrollReveal from "@modules/common/components/scroll-reveal"
@@ -12,6 +12,59 @@ import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import ProductPrice from "@modules/products/components/product-price"
 import CategoryCarousel from "./category-carousel"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { getProductReviewSummary } from "@lib/data/products"
+
+// Client-side rating component for HomeClientWrapper
+const ProductRating = ({ productId }: { productId: string }) => {
+  const [reviewData, setReviewData] = useState<{ average_rating: number; count: number } | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    getProductReviewSummary(productId)
+      .then((data) => setReviewData(data as { average_rating: number; count: number }))
+      .finally(() => setIsLoading(false))
+  }, [productId])
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center space-x-1 mt-2">
+        <div className="flex space-x-0.5">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="w-3 h-3 bg-gray-200 rounded animate-pulse"></div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  if (!reviewData || reviewData.count === 0) {
+    return null // Don't show anything if no reviews
+  }
+
+  const { average_rating, count } = reviewData
+  const roundedRating = Math.round(average_rating)
+
+  return (
+    <div className="flex items-center justify-center space-x-1 mt-2">
+      <div className="flex space-x-0.5">
+        {[...Array(5)].map((_, i) => (
+          <svg
+            key={i}
+            className={`w-3 h-3 ${i < roundedRating ? 'text-luxury-gold' : 'text-gray-300'}`}
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        ))}
+      </div>
+      <span className="text-xs text-gray-600 font-medium">
+        {average_rating.toFixed(1)} ({count})
+      </span>
+    </div>
+  )
+}
 
 type HomeClientWrapperProps = {
   featuredProducts: any[]
@@ -318,6 +371,9 @@ export default function HomeClientWrapper({
                                   <span>Price not available</span>
                                 )}
                               </div>
+
+                              {/* Display product rating */}
+                              <ProductRating productId={product.id} />
                             </div>
                           </div>
                         ))}

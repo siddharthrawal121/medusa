@@ -313,10 +313,10 @@ export const getProductReviews = async ({
 }
 
 export const addProductReview = async (input: {
-  title?: string
-  content: string
-  first_name: string
-  last_name: string
+  title: string,
+  content: string,
+  first_name: string,
+  last_name: string,
   rating: number,
   product_id: string
 }) => {
@@ -333,4 +333,34 @@ export const addProductReview = async (input: {
     },
     cache: "no-store",
   })
+}
+
+export const getProductReviewSummary = async (productId: string) => {
+  try {
+    const response = await sdk.client.fetch(`/store/products/${productId}/reviews-summary`, {
+      next: {
+        ...(await getCacheOptions(`product-review-summary-${productId}`)),
+      },
+      cache: "force-cache",
+    })
+    return response || { average_rating: 0, count: 0 }
+  } catch (error) {
+    // If endpoint doesn't exist, calculate from reviews
+    try {
+      const reviews = await getProductReviews({ productId, limit: 1000, offset: 0 })
+      if (!reviews.reviews || reviews.reviews.length === 0) {
+        return { average_rating: 0, count: 0 }
+      }
+      
+      const totalRating = reviews.reviews.reduce((sum: number, review: any) => sum + review.rating, 0)
+      const average_rating = totalRating / reviews.reviews.length
+      
+      return {
+        average_rating,
+        count: reviews.reviews.length
+      }
+    } catch (fallbackError) {
+      return { average_rating: 0, count: 0 }
+    }
+  }
 }

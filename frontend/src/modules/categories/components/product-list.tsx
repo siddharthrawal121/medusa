@@ -1,5 +1,5 @@
 import { HttpTypes } from "@medusajs/types"
-import ProductPreview from "@modules/products/components/product-preview"
+import ProductPreview from "@modules/products/components/product-preview/server"
 
 const ProductList = ({
   products,

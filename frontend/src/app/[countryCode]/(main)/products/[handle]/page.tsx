@@ -78,22 +78,54 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     }
 
     const alternates = buildAlternates(`/products/${product.handle}`, countryCode, getBaseURL())
+
+    const md: Record<string, any> | undefined = (product as any)?.metadata
+    const seoTitle: string | undefined = md?.seo_title
+    const seoDescription: string | undefined = md?.seo_description
+    const seoKeywords: string[] | undefined = md?.seo_keywords
+    const noindex: boolean | undefined = md?.noindex
+    const ogImage: string | undefined = md?.og_image
+
+    const baseTitle = seoTitle || `${product.title} | Imperial Craft Of India`
+    const descriptionRaw =
+      seoDescription ||
+      (product.description as string | undefined) ||
+      `Discover the exquisite ${product.title}, a handcrafted marble piece from our luxury collection.`
+    const description = descriptionRaw.length > 160 ? `${descriptionRaw.substring(0, 157)}...` : descriptionRaw
+
+    const imageCandidates: string[] = []
+    if (product.thumbnail) imageCandidates.push(product.thumbnail)
+    if (ogImage) imageCandidates.push(ogImage)
+    if ((product as any).images?.length) imageCandidates.push(...(product as any).images.map((i: any) => i.url))
+    const images = Array.from(new Set(imageCandidates)).slice(0, 4)
+
+    const keywords: string[] = [
+      ...(seoKeywords || []),
+      product.title,
+      ...((product as any).categories?.map((c: any) => c.name) || []),
+      ...((product as any).tags?.map((t: any) => t.value || "") || []),
+      "handcrafted",
+      "marble",
+      "buy online",
+    ].filter(Boolean)
+
     return {
-      title: `${product.title} | Imperial Craft Of India`,
-      description:
-        product.description?.substring(0, 160) ||
-        `Discover the exquisite ${product.title}, a handcrafted marble piece from our luxury collection.`,
-      alternates: alternates,
+      title: baseTitle,
+      description,
+      keywords,
+      robots: noindex ? { index: false, follow: true, googleBot: { index: false, follow: true } } : undefined,
+      alternates,
       openGraph: {
-        title: `${product.title} | Imperial Craft Of India`,
-        description:
-          product.description?.substring(0, 160) ||
-          `Discover the exquisite ${product.title}, a handcrafted marble piece from our luxury collection.`,
-        images: product.thumbnail ? [product.thumbnail] : [],
+        title: baseTitle,
+        description,
+        images: images.length ? images : undefined,
         type: "website",
       },
       twitter: {
         card: "summary_large_image",
+        title: baseTitle,
+        description,
+        images: images.length ? images : undefined,
       },
     }
   } catch (error) {

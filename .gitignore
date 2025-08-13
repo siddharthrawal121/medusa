@@ -37,3 +37,5 @@ solace-medusa-starter/
 solace-medusa-starter/*
 example-medusa-storefrone/
 example-medusa-storefrone/*
+
+scripts/review-script/*
