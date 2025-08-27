@@ -71,6 +71,23 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    // Force canonical host to www.imperialcraftofindia.com
+    // This prevents duplicate content between apex and www.
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'imperialcraftofindia.com',
+          },
+        ],
+        destination: 'https://www.imperialcraftofindia.com/:path*',
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       // Global caching/security headers

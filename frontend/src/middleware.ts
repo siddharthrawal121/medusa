@@ -102,6 +102,14 @@ export async function middleware(request: NextRequest) {
   try {
     const { pathname } = request.nextUrl
 
+    // Enforce canonical host: redirect apex to www
+    const host = request.headers.get("host") || ""
+    if (host === "imperialcraftofindia.com") {
+      const url = new URL(request.url)
+      url.host = "www.imperialcraftofindia.com"
+      return NextResponse.redirect(url, 308)
+    }
+
     // Check if the URL has Builder.io preview parameters
     const isPreviewing =
       request.nextUrl.searchParams.has("builder.preview") ||
@@ -112,8 +120,12 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
     
-    // Get country data from backend (cached)
+    // Get country data from backend (cached). If this fails or returns empty,
+    // skip redirects entirely to avoid redirect errors in crawlers.
     const { validCountries, defaultCountry } = await getCountryData()
+    if (!validCountries?.length || !defaultCountry) {
+      return NextResponse.next()
+    }
     
     // Determine visitor country from request
     const visitorCountry = extractCountry(request)
@@ -173,7 +185,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // If URL already has a valid country code, just proceed with cache headers
-    if (validCountries.includes(urlCountryCode)) {
+    if (urlCountryCode && validCountries.includes(urlCountryCode)) {
       // Set cache ID cookie if not already set
       let cacheIdCookie = request.cookies.get("_medusa_cache_id")
       if (!cacheIdCookie) {
@@ -199,6 +211,11 @@ export async function middleware(request: NextRequest) {
     const redirectPath = pathname === "/" ? "" : pathname
     const queryString = request.nextUrl.search ? request.nextUrl.search : ""
     const redirectUrl = `${request.nextUrl.origin}/${preferredCountry}${redirectPath}${queryString}`
+
+    // Prevent self-redirect loops
+    if (request.nextUrl.href === redirectUrl) {
+      return response
+    }
 
     response = NextResponse.redirect(redirectUrl, 307)
 

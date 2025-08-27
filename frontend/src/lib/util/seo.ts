@@ -3,8 +3,15 @@ export const buildAlternates = (
   countryCode?: string,
   baseUrl?: string
 ) => {
-  const code = countryCode?.toLowerCase() || "us"
-  const url = `${baseUrl || ""}/${code}${path.startsWith("/") ? path : `/${path}`}`
+  const code = (countryCode || "us").toLowerCase()
+
+  // Ensure baseUrl is absolute and normalized (no trailing slash)
+  const normalizedBase = (baseUrl || "").replace(/\/$/, "")
+  const safeBase = normalizedBase || "https://www.imperialcraftofindia.com"
+
+  // Normalize path and avoid double slashes
+  const normalizedPath = path ? (path.startsWith("/") ? path : `/${path}`) : ""
+  const url = `${safeBase}/${code}${normalizedPath}`.replace(/([^:]\/)\/+/, "$1")
   return {
     canonical: url,
     languages: {
