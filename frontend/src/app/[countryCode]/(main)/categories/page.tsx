@@ -4,10 +4,32 @@ import { listCategories } from "@lib/data/categories"
 import CategorySection from "@modules/categories/components/category-section"
 import { notFound } from "next/navigation"
 import { HttpTypes } from "@medusajs/types"
+import { getBaseURL } from "@lib/util/env"
+import { buildAlternates } from "@lib/util/seo"
 
-export const metadata: Metadata = {
-  title: "Categories",
-  description: "Explore all categories of our products.",
+// Generate metadata with canonical URL
+export async function generateMetadata({ params }: { params: { countryCode: string } }): Promise<Metadata> {
+  const { countryCode } = await params
+  const baseUrl = getBaseURL()
+  const title = "Categories | Imperial Craft Of India"
+  const description = "Explore all categories of our luxury handcrafted marble products and artisanal decor."
+  const alternates = buildAlternates("/categories", countryCode, baseUrl)
+
+  return {
+    title,
+    description,
+    alternates,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  }
 }
 
 // Cache the rendered page for 5 minutes and serve stale content while revalidating.

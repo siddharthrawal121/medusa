@@ -1,11 +1,33 @@
 import type { Metadata } from "next"
+import { getBaseURL } from "@lib/util/env"
+import { buildAlternates } from "@lib/util/seo"
 
-export const metadata: Metadata = {
-  title: "CSR Policy | Imperial Craft Of India",
-  description: "Read our Corporate Social Responsibility policy for Imperial Craft Of India. Learn about our commitment to ethical practices and sustainability.",
+// Generate metadata with canonical URL
+export async function generateMetadata({ params }: { params: { countryCode: string } }): Promise<Metadata> {
+  const { countryCode } = await params
+  const baseUrl = getBaseURL()
+  const title = "CSR Policy | Imperial Craft Of India"
+  const description = "Read our Corporate Social Responsibility policy for Imperial Craft Of India. Learn about our commitment to ethical practices and sustainability."
+  const alternates = buildAlternates("/csr-policy", countryCode, baseUrl)
+
+  return {
+    title,
+    description,
+    alternates,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  }
 }
 
-export default function CSRPolicyPage() {
+export default function CSRPolicyPage({ params }: { params: { countryCode: string } }) {
   return (
     <div className="content-container py-12">
       {/* Hero section */}

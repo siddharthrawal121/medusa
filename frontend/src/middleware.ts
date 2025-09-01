@@ -102,13 +102,8 @@ export async function middleware(request: NextRequest) {
   try {
     const { pathname } = request.nextUrl
 
-    // Enforce canonical host: redirect apex to www
-    const host = request.headers.get("host") || ""
-    if (host === "imperialcraftofindia.com") {
-      const url = new URL(request.url)
-      url.host = "www.imperialcraftofindia.com"
-      return NextResponse.redirect(url, 308)
-    }
+    // Note: Apex domain redirect is handled by Next.js config (next.config.js)
+    // to avoid conflicts. No need to handle it here.
 
     // Check if the URL has Builder.io preview parameters
     const isPreviewing =
@@ -130,28 +125,36 @@ export async function middleware(request: NextRequest) {
     // Determine visitor country from request
     const visitorCountry = extractCountry(request)
     
-    // First, check for nested country codes like /us/in or /us/ae
+    // Check for malformed nested country codes like /us/in or /us/ae and redirect to 404
+    // This prevents search engines from indexing invalid URL patterns
     const nestedCountryMatch = pathname.match(/^\/([a-z]{2})\/([a-z]{2})($|\/)/)
     
     if (nestedCountryMatch) {
-      // Get the second country code
+      const firstCountryCode = nestedCountryMatch[1]
       const secondCountryCode = nestedCountryMatch[2]
       
-      // Only redirect if the second code is a valid country code
-      if (validCountries.includes(secondCountryCode)) {
-        // Get the rest of the path after the second country code
-        const restOfPath = pathname.substring(pathname.indexOf(secondCountryCode) + 2)
-        
-        // Create a new URL with just the second country code
-        const newUrl = new URL(`/${secondCountryCode}${restOfPath}`, request.url)
-        
-        // Redirect to the normalized URL
-        return NextResponse.redirect(newUrl)
+      // If both are valid country codes, this is likely a mistake
+      if (validCountries.includes(firstCountryCode) && validCountries.includes(secondCountryCode)) {
+        // Instead of redirecting, return a 404 to prevent search engines from indexing these URLs
+        return new Response('Not Found', { status: 404 })
       }
     }
     
     // Get country code from URL
     const urlCountryCode = pathname.split("/")[1]?.toLowerCase()
+    
+    // If URL has a country code, validate it's supported
+    if (urlCountryCode && validCountries.length > 0) {
+      // If the country code is not in our supported list, redirect to /us
+      if (!validCountries.includes(urlCountryCode) && urlCountryCode.match(/^[a-z]{2}$/)) {
+        // This is a 2-letter code that looks like a country but isn't supported
+        // Redirect to the same path but with /us
+        const redirectPath = pathname.substring(3) // Remove /xx from start
+        const queryString = request.nextUrl.search ? request.nextUrl.search : ""
+        const redirectUrl = `${request.nextUrl.origin}/us${redirectPath}${queryString}`
+        return NextResponse.redirect(redirectUrl, 302)
+      }
+    }
     
     // Create a response object we can modify
     let response = NextResponse.next()
@@ -212,12 +215,24 @@ export async function middleware(request: NextRequest) {
     const queryString = request.nextUrl.search ? request.nextUrl.search : ""
     const redirectUrl = `${request.nextUrl.origin}/${preferredCountry}${redirectPath}${queryString}`
 
-    // Prevent self-redirect loops
-    if (request.nextUrl.href === redirectUrl) {
+    // Enhanced redirect loop prevention
+    const currentUrl = request.nextUrl.href
+    if (currentUrl === redirectUrl) {
       return response
     }
+    
+    // Also prevent redirecting if we're already on the correct country path
+    if (pathname.startsWith(`/${preferredCountry}`)) {
+      return response
+    }
+    
+    // Log redirect for debugging (only in development)
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Redirecting: ${currentUrl} → ${redirectUrl}`)
+    }
 
-    response = NextResponse.redirect(redirectUrl, 307)
+    // Use 302 for country-based redirects as they're based on user location and may change
+    response = NextResponse.redirect(redirectUrl, 302)
 
     // Set cache ID cookie
     response.cookies.set("_medusa_cache_id", crypto.randomUUID(), {

@@ -9,6 +9,8 @@ import { CategoryTemplate } from "@modules/categories/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import { getCategoryByLegacyHandle } from "@lib/config/categories"
+import { getBaseURL } from "@lib/util/env"
+import { buildAlternates } from "@lib/util/seo"
 
 type Props = {
   params: { category: string[]; countryCode: string }
@@ -85,40 +87,124 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // Properly await params before using them - Next.js 15 requirement
   const paramsData = await params;
   const category = paramsData.category;
+  const countryCode = paramsData.countryCode;
 
   try {
     // Use the last part of the category path as the handle
     const categoryHandle = category[category.length - 1];
     const categoryObj = await getCachedCategory(categoryHandle);
+    
+    // Build the canonical URL for this category page
+    const categoryPath = `/categories/${category.join('/')}`;
+    const alternates = buildAlternates(categoryPath, countryCode, getBaseURL());
 
     if (!categoryObj) {
       // Try to find a similar category before giving up
       const similarCategory = await findSimilarCategory(categoryHandle);
       
       if (similarCategory) {
+        const title = `${similarCategory.name} | Luxury Marble Collection`;
+        const description = 'description' in similarCategory && similarCategory.description 
+          ? similarCategory.description 
+          : `Browse our exclusive ${similarCategory.name.toLowerCase()} collection, handcrafted by master artisans for your luxury home.`;
+        
         return {
-          title: `${similarCategory.name} | Luxury Marble Collection`,
-          description: 'description' in similarCategory && similarCategory.description 
-            ? similarCategory.description 
-            : `Browse our exclusive ${similarCategory.name.toLowerCase()} collection, handcrafted by master artisans for your luxury home.`,
+          title,
+          description,
+          alternates,
+          openGraph: {
+            title,
+            description,
+            type: "website",
+          },
+          twitter: {
+            card: "summary_large_image",
+            title,
+            description,
+          },
         };
       }
       
+      const title = "Category | Luxury Marble Collection";
+      const description = "Browse our exclusive marble collection, handcrafted by master artisans for your luxury home.";
+      
       return {
-        title: "Category | Luxury Marble Collection",
-        description: "Browse our exclusive marble collection, handcrafted by master artisans for your luxury home.",
+        title,
+        description,
+        alternates,
+        openGraph: {
+          title,
+          description,
+          type: "website",
+        },
+        twitter: {
+          card: "summary_large_image",
+          title,
+          description,
+        },
       };
     }
 
+    const title = `${categoryObj.name} | Luxury Marble Collection`;
+    const description = categoryObj.description || `Browse our exclusive ${categoryObj.name.toLowerCase()} collection, handcrafted by master artisans for your luxury home.`;
+    
+    // Extract category metadata for SEO
+    const categoryMeta = (categoryObj as any)?.metadata || {};
+    const seoTitle = categoryMeta.seo_title || title;
+    const seoDescription = categoryMeta.seo_description || description;
+    const noindex = categoryMeta.noindex || false;
+    const ogImage = categoryMeta.og_image;
+    
+    const images = [];
+    if (ogImage) images.push(ogImage);
+    if ((categoryObj as any).thumbnail) images.push((categoryObj as any).thumbnail);
+
     return {
-      title: `${categoryObj.name} | Luxury Marble Collection`,
-      description: categoryObj.description || `Browse our exclusive ${categoryObj.name.toLowerCase()} collection, handcrafted by master artisans for your luxury home.`,
+      title: seoTitle,
+      description: seoDescription.length > 160 ? `${seoDescription.substring(0, 157)}...` : seoDescription,
+      alternates,
+      robots: noindex ? { index: false, follow: true, googleBot: { index: false, follow: true } } : undefined,
+      keywords: [
+        categoryObj.name,
+        'luxury marble',
+        'handcrafted',
+        'imperial craft of india',
+        'marble art',
+        'home decor'
+      ],
+      openGraph: {
+        title: seoTitle,
+        description: seoDescription,
+        images: images.length ? images : undefined,
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: seoTitle,
+        description: seoDescription,
+        images: images.length ? images : undefined,
+      },
     }
   } catch (error) {
     console.error("Error generating metadata:", error);
+    const title = "Category | Luxury Marble Collection";
+    const description = "Browse our exclusive marble collection, handcrafted by master artisans for your luxury home.";
+    const alternates = buildAlternates(`/categories/${category.join('/')}`, countryCode, getBaseURL());
+    
     return {
-      title: "Category | Luxury Marble Collection",
-      description: "Browse our exclusive marble collection, handcrafted by master artisans for your luxury home.",
+      title,
+      description,
+      alternates,
+      openGraph: {
+        title,
+        description,
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+      },
     }
   }
 }

@@ -1,11 +1,33 @@
 import type { Metadata } from "next"
+import { getBaseURL } from "@lib/util/env"
+import { buildAlternates } from "@lib/util/seo"
 
-export const metadata: Metadata = {
-  title: "Privacy Policy | Imperial Craft Of India",
-  description: "Read our privacy policy for Imperial Craft Of India. Learn how we collect, use, and protect your personal information.",
+// Generate metadata with canonical URL
+export async function generateMetadata({ params }: { params: { countryCode: string } }): Promise<Metadata> {
+  const { countryCode } = await params
+  const baseUrl = getBaseURL()
+  const title = "Privacy Policy | Imperial Craft Of India"
+  const description = "Read our privacy policy for Imperial Craft Of India. Learn how we collect, use, and protect your personal information."
+  const alternates = buildAlternates("/privacy", countryCode, baseUrl)
+
+  return {
+    title,
+    description,
+    alternates,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  }
 }
 
-export default function PrivacyPage() {
+export default function PrivacyPage({ params }: { params: { countryCode: string } }) {
   return (
     <div className="content-container py-12">
       {/* Hero section */}

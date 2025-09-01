@@ -3,10 +3,32 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import StoreTemplate from "@modules/store/templates"
 import { notFound } from "next/navigation"
 import { getRegion } from "@lib/data/regions"
+import { getBaseURL } from "@lib/util/env"
+import { buildAlternates } from "@lib/util/seo"
 
-export const metadata: Metadata = {
-  title: "Store",
-  description: "Explore our exclusive collection of handcrafted marble products.",
+// Generate metadata with canonical URL
+export async function generateMetadata({ params }: { params: { countryCode: string } }): Promise<Metadata> {
+  const { countryCode } = await params
+  const baseUrl = getBaseURL()
+  const title = "Store | Imperial Craft Of India"
+  const description = "Explore our exclusive collection of handcrafted marble products and luxury Indian handicrafts."
+  const alternates = buildAlternates("/store", countryCode, baseUrl)
+
+  return {
+    title,
+    description,
+    alternates,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  }
 }
 
 // Segment config should be a constant, not a function

@@ -78,20 +78,24 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
   const handle = params.handle
 
-  const response = await batchFetch([
-    {
-      path: "/store/collections",
-      query: { handle: handle, fields: "*products" },
-      cacheTags: ["collections"],
-      cacheRevalidate: 600
+  try {
+    const response = await batchFetch([
+      {
+        path: "/store/collections",
+        query: { handle: handle, fields: "*products" },
+        cacheTags: ["collections"],
+        cacheRevalidate: 600
+      }
+    ])
+
+    const collection = (response[0].data as any)?.collections?.[0]
+
+    if (!collection) {
+      return {
+        title: "Collection Not Found | Imperial Craft Of India",
+        description: "The requested collection could not be found.",
+      }
     }
-  ])
-
-  const collection = (response[0].data as any)?.collections?.[0]
-
-  if (!collection) {
-    notFound()
-  }
 
   const alternates = buildAlternates(`/collections/${collection.handle}`, params.countryCode as string, getBaseURL())
   const metadata = {
@@ -113,6 +117,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   } as Metadata
 
   return metadata
+  } catch (error) {
+    console.error("Error generating metadata for collection:", error)
+    return {
+      title: "Collection | Imperial Craft Of India",
+      description: "Explore our luxury handcrafted collections.",
+    }
+  }
 }
 
 export default async function CollectionPage(props: Props) {
@@ -124,18 +135,24 @@ export default async function CollectionPage(props: Props) {
   const handle = paramsData.handle
   const countryCode = paramsData.countryCode
 
-  const response = await batchFetch([
-    {
-      path: "/store/collections",
-      query: { handle: handle, fields: "*products" },
-      cacheTags: ["collections"],
-      cacheRevalidate: 600
+  let collection
+  try {
+    const response = await batchFetch([
+      {
+        path: "/store/collections",
+        query: { handle: handle, fields: "*products" },
+        cacheTags: ["collections"],
+        cacheRevalidate: 600
+      }
+    ])
+
+    collection = (response[0].data as any)?.collections?.[0]
+
+    if (!collection) {
+      notFound()
     }
-  ])
-
-  const collection = (response[0].data as any)?.collections?.[0]
-
-  if (!collection) {
+  } catch (error) {
+    console.error("Error fetching collection:", error)
     notFound()
   }
 

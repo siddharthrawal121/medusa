@@ -1,11 +1,33 @@
 import type { Metadata } from "next"
+import { getBaseURL } from "@lib/util/env"
+import { buildAlternates } from "@lib/util/seo"
 
-export const metadata: Metadata = {
-  title: "Terms & Conditions | Imperial Craft Of India",
-  description: "Read our terms and conditions for Imperial Craft Of India. Learn about your rights and responsibilities when using our services and products.",
+// Generate metadata with canonical URL
+export async function generateMetadata({ params }: { params: { countryCode: string } }): Promise<Metadata> {
+  const { countryCode } = await params
+  const baseUrl = getBaseURL()
+  const title = "Terms & Conditions | Imperial Craft Of India"
+  const description = "Read our terms and conditions for Imperial Craft Of India. Learn about your rights and responsibilities when using our services and products."
+  const alternates = buildAlternates("/terms", countryCode, baseUrl)
+
+  return {
+    title,
+    description,
+    alternates,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  }
 }
 
-export default function TermsPage() {
+export default function TermsPage({ params }: { params: { countryCode: string } }) {
   return (
     <div className="content-container py-12">
       {/* Hero section */}
