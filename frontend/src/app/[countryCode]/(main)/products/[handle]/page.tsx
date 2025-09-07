@@ -9,6 +9,7 @@ import Script from "next/script"
 import { getBaseURL } from "@lib/util/env"
 import { buildAlternates } from "@lib/util/seo"
 import SkeletonProductPage from "@modules/skeletons/templates/skeleton-product-page"
+import { getProductPrice } from "@lib/util/get-product-price"
 
 type Props = {
   params: { countryCode: string; handle: string }
@@ -147,7 +148,42 @@ export default async function ProductPage(props: Props) {
 
     const baseUrl = getBaseURL()
 
-    const price = (product as any).variants?.[0]?.prices?.[0]
+    // Robust price resolution for structured data (handles regions/variants)
+    const cheapest = getProductPrice({ product }).cheapestPrice
+    const priceAmountMinor = cheapest?.calculated_price_number ?? (product as any).variants?.[0]?.prices?.[0]?.amount ?? 0
+    const priceCurrency = (cheapest?.currency_code || region.currency_code || "USD").toUpperCase()
+
+    // Build shipping details automatically from configured regions/countries
+    let shippingCountries: string[] = []
+    try {
+      const regions = await listRegions()
+      const codes = regions?.flatMap((r: any) => r.countries?.map((c: any) => c.iso_2).filter(Boolean)) || []
+      shippingCountries = Array.from(new Set(codes.map((c: string) => c.toUpperCase())))
+    } catch (_) {}
+
+    if (!shippingCountries.length) {
+      // Fallback to the current region's countries or the product's country code if available
+      const codes = (region as any)?.countries?.map((c: any) => c.iso_2?.toUpperCase()).filter(Boolean) || []
+      shippingCountries = Array.from(new Set(codes))
+    }
+
+    const shippingDetails = shippingCountries.length
+      ? shippingCountries.map((cc) => ({
+          "@type": "OfferShippingDetails",
+          shippingDestination: { "@type": "DefinedRegion", addressCountry: cc },
+          shippingRate: {
+            "@type": "MonetaryAmount",
+            value: "0",
+            currency: priceCurrency,
+          },
+          deliveryTime: {
+            "@type": "ShippingDeliveryTime",
+            handlingTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 3, unitCode: "d" },
+            transitTime: { "@type": "QuantitativeValue", minValue: 6, maxValue: 10, unitCode: "d" },
+          },
+        }))
+      : undefined
+
     const ldJson = {
       "@context": "https://schema.org",
       "@type": "Product",
@@ -162,9 +198,10 @@ export default async function ProductPage(props: Props) {
       offers: {
         "@type": "Offer",
         url: `${baseUrl}/products/${product.handle}`,
-        priceCurrency: price?.currency_code || region.currency_code,
-        price: (price?.amount ?? 0) / 100,
+        priceCurrency,
+        price: Math.max(0.01, Number(priceAmountMinor) / 100),
         availability: "https://schema.org/InStock",
+        shippingDetails,
       },
     }
 
