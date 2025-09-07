@@ -1,9 +1,21 @@
 import FaqAccordion from "@components/FaqAccordion"
+import type { Metadata } from "next"
+import { getBaseURL } from "@lib/util/env"
+import { buildAlternates } from "@lib/util/seo"
 
-export const metadata = {
-  title: "FAQs | Imperial Craft Of India",
-  description:
-    "Frequently asked questions about Imperial Craft Of India. Shipping, returns, wholesale, and more.",
+export async function generateMetadata({ params }: { params: { countryCode: string } }): Promise<Metadata> {
+  const { countryCode } = await params
+  const baseUrl = getBaseURL()
+  const title = "FAQs | Imperial Craft Of India"
+  const description =
+    "Frequently asked questions about Imperial Craft Of India. Shipping, returns, wholesale, and more."
+  const alternates = buildAlternates("/faqs", countryCode, baseUrl)
+
+  return {
+    title,
+    description,
+    alternates,
+  }
 }
 
 const faqs = [

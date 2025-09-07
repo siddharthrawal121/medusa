@@ -163,6 +163,22 @@ const localBusinessSchema = {
   url: BASE_URL,
   description:
     "Luxury Indian handicrafts and handcrafted marble art from master artisans.",
+  // Structured address and optional business details for Google rich results
+  address: {
+    "@type": "PostalAddress",
+    streetAddress:
+      process.env.NEXT_PUBLIC_BUSINESS_STREET || undefined,
+    addressLocality:
+      process.env.NEXT_PUBLIC_BUSINESS_LOCALITY || process.env.NEXT_PUBLIC_BUSINESS_CITY || undefined,
+    addressRegion:
+      process.env.NEXT_PUBLIC_BUSINESS_REGION || process.env.NEXT_PUBLIC_BUSINESS_STATE || undefined,
+    postalCode:
+      process.env.NEXT_PUBLIC_BUSINESS_POSTAL_CODE || undefined,
+    addressCountry:
+      (process.env.NEXT_PUBLIC_BUSINESS_COUNTRY || process.env.NEXT_PUBLIC_DEFAULT_COUNTRY || "IN").toString().toUpperCase(),
+  },
+  telephone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || undefined,
+  priceRange: process.env.NEXT_PUBLIC_PRICE_RANGE || undefined,
 }
 
 export default function RootLayout(props: { children: React.ReactNode }) {

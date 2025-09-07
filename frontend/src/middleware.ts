@@ -67,6 +67,32 @@ async function getCountryData() {
 }
 
 /**
+ * Read an env-provided default country and normalize
+ */
+function getEnvDefaultCountry(): string {
+  const envValue = process.env.NEXT_PUBLIC_DEFAULT_COUNTRY || process.env.DEFAULT_COUNTRY
+  const candidate = (envValue || "us").toString().trim().toLowerCase()
+  return /^[a-z]{2}$/.test(candidate) ? candidate : "us"
+}
+
+/**
+ * Wrap a promise with a timeout. Resolves with fallback on timeout.
+ */
+async function withTimeout<T>(promise: Promise<T>, ms: number, fallback: T): Promise<T> {
+  let timeoutId: NodeJS.Timeout
+  const timeout = new Promise<T>((resolve) => {
+    timeoutId = setTimeout(() => resolve(fallback), ms)
+  })
+  try {
+    const result = await Promise.race([promise, timeout]) as T
+    return result
+  } finally {
+    // @ts-ignore - defined above
+    clearTimeout(timeoutId)
+  }
+}
+
+/**
  * Utility: best-effort extraction of the visitor's ISO-2 country code.
  * 1. Prefer Next.js Edge `request.geo` (works on Vercel/Cloudflare).
  * 2. Fallback to common CDN headers.
@@ -115,12 +141,17 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
     
-    // Get country data from backend (cached). If this fails or returns empty,
-    // skip redirects entirely to avoid redirect errors in crawlers.
-    const { validCountries, defaultCountry } = await getCountryData()
-    if (!validCountries?.length || !defaultCountry) {
-      return NextResponse.next()
-    }
+    // Get country data from backend (cached) with a strict timeout.
+    // If it fails, we still want the homepage to redirect using an env fallback
+    // so crawlers and users don't land on "/" without locale.
+    const envFallback = getEnvDefaultCountry()
+    const { validCountries, defaultCountry } = await withTimeout(
+      getCountryData(),
+      800,
+      { validCountries: cachedValidCountries || [], defaultCountry: cachedDefaultCountry || envFallback }
+    )
+    
+    const hasCountryData = Boolean(validCountries?.length) && Boolean(defaultCountry)
     
     // Determine visitor country from request
     const visitorCountry = extractCountry(request)
@@ -188,7 +219,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // If URL already has a valid country code, just proceed with cache headers
-    if (urlCountryCode && validCountries.includes(urlCountryCode)) {
+    if (urlCountryCode && hasCountryData && validCountries.includes(urlCountryCode)) {
       // Set cache ID cookie if not already set
       let cacheIdCookie = request.cookies.get("_medusa_cache_id")
       if (!cacheIdCookie) {
@@ -204,12 +235,13 @@ export async function middleware(request: NextRequest) {
       return response
     }
 
-    // Decide where to send the visitor
-    const preferredCountry = visitorCountry && validCountries.includes(visitorCountry)
-      ? visitorCountry
-      : defaultCountry
+    // Decide where to send the visitor. If we don't have country data yet,
+    // use env fallback for root path to guarantee a redirect.
+    const preferredCountry = hasCountryData
+      ? (visitorCountry && validCountries.includes(visitorCountry) ? visitorCountry : defaultCountry)
+      : envFallback
 
-    const isUnsupportedVisitor = !visitorCountry || !validCountries.includes(visitorCountry)
+    const isUnsupportedVisitor = hasCountryData ? (!visitorCountry || !validCountries.includes(visitorCountry)) : false
 
     const redirectPath = pathname === "/" ? "" : pathname
     const queryString = request.nextUrl.search ? request.nextUrl.search : ""
@@ -232,6 +264,10 @@ export async function middleware(request: NextRequest) {
     }
 
     // Use 302 for country-based redirects as they're based on user location and may change
+    // If we lack country data and path is not root, avoid unsafe redirects
+    if (!hasCountryData && pathname !== "/") {
+      return response
+    }
     response = NextResponse.redirect(redirectUrl, 302)
 
     // Set cache ID cookie

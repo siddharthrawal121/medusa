@@ -9,12 +9,18 @@ import { Suspense } from "react"
 import "./checkout.css"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import ChevronDown from "@modules/common/icons/chevron-down"
+import { getBaseURL } from "@lib/util/env"
+import { buildAlternates } from "@lib/util/seo"
 
 // Enhanced timeout settings for checkout
 const CHECKOUT_TIMEOUT = 3500 // 3.5 seconds timeout
 
-export const metadata: Metadata = {
-  title: "Checkout | Imperial Craft Of India",
+export async function generateMetadata({ params }: { params: { countryCode: string } }): Promise<Metadata> {
+  const { countryCode } = await params
+  const baseUrl = getBaseURL()
+  const title = "Checkout | Imperial Craft Of India"
+  const alternates = buildAlternates("/checkout", countryCode, baseUrl)
+  return { title, alternates }
 }
 
 export default async function Checkout() {

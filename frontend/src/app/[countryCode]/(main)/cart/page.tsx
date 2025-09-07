@@ -6,10 +6,16 @@ import CartSkeleton from "@modules/skeletons/templates/cart-skeleton"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { Suspense } from "react"
+import { getBaseURL } from "@lib/util/env"
+import { buildAlternates } from "@lib/util/seo"
 
-export const metadata: Metadata = {
-  title: "Cart | Imperial Craft Of India",
-  description: "View your cart and proceed to checkout",
+export async function generateMetadata({ params }: { params: { countryCode: string } }): Promise<Metadata> {
+  const { countryCode } = await params
+  const baseUrl = getBaseURL()
+  const title = "Cart | Imperial Craft Of India"
+  const description = "View your cart and proceed to checkout"
+  const alternates = buildAlternates("/cart", countryCode, baseUrl)
+  return { title, description, alternates }
 }
 
 export default async function Cart() {
