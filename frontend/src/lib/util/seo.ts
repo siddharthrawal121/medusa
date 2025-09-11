@@ -11,7 +11,7 @@ export const buildAlternates = (
 
   // Normalize path and avoid double slashes
   const normalizedPath = path ? (path.startsWith("/") ? path : `/${path}`) : ""
-  const url = `${safeBase}/${code}${normalizedPath}`.replace(/([^:]\/)\/+/, "$1")
+  const urlForCurrent = `${safeBase}/${code}${normalizedPath}`.replace(/([^:]\/)\/+/, "$1")
 
   // Build hreflang map. Allow configuring active country codes via env to
   // advertise ALL regional alternates on every page and add x-default.
@@ -20,11 +20,11 @@ export const buildAlternates = (
     .map((c) => c.trim().toLowerCase())
     .filter((c) => /^[a-z]{2}$/.test(c))
 
-  const defaultCountry = (process.env.NEXT_PUBLIC_DEFAULT_COUNTRY || process.env.DEFAULT_COUNTRY || "us")
+  const defaultCountry = (process.env.NEXT_PUBLIC_DEFAULT_COUNTRY || process.env.DEFAULT_COUNTRY || "in")
     .toString()
     .trim()
     .toLowerCase()
-  const safeDefault = /^[a-z]{2}$/.test(defaultCountry) ? defaultCountry : "us"
+  const safeDefault = /^[a-z]{2}$/.test(defaultCountry) ? defaultCountry : "in"
 
   const languages: Record<string, string> = {}
 
@@ -37,11 +37,15 @@ export const buildAlternates = (
     })
     languages["x-default"] = `${safeBase}/${safeDefault}${normalizedPath}`.replace(/([^:]\/)\/+/, "$1")
   } else {
-    languages[`en-${code.toUpperCase()}`] = url
+    languages[`en-${code.toUpperCase()}`] = urlForCurrent
+    languages["x-default"] = `${safeBase}/${safeDefault}${normalizedPath}`.replace(/([^:]\/)\/+/, "$1")
   }
 
+  // Force canonical to preferred default market to avoid duplicates
+  const canonical = `${safeBase}/${safeDefault}${normalizedPath}`.replace(/([^:]\/)\/+/, "$1")
+
   return {
-    canonical: url,
+    canonical,
     languages,
   }
 }
